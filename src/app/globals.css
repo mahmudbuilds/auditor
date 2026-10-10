@@ -1,26 +1,138 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #14171a;
+  --foreground: #f5f2eb;
+  --amber-gold: #e5a93c;
+  --amber-gold-hover: #f3b74b;
+  --amber-gold-dark: #b88223;
+  --amber-glow: rgba(229, 169, 60, 0.22);
+  --surface-dark: #181c21;
+  --surface-dark-elevated: #1f242b;
+  --surface-dark-active: #262c35;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-amber: rgba(229, 169, 60, 0.25);
+  --text-muted: #9ba1a8;
+  --text-cream: #f5f2eb;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  scrollbar-gutter: stable;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Custom Typography Helpers */
+.font-editorial {
+  font-family: "Cormorant Garamond", Garamond, Georgia, serif;
+}
+
+.font-script {
+  font-family: "Caveat", cursive, sans-serif;
+}
+
+.font-roman {
+  font-family: "Cinzel", "Times New Roman", Times, serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.font-mono {
+  font-family:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.font-sans {
+  font-family:
+    var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+}
+
+/* Base Body & Textured Backdrop */
+body {
+  background-color: #14171a;
+  background-image:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(229, 169, 60, 0.04) 0%,
+      transparent 50%
+    ),
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    48px 48px,
+    48px 48px;
+  background-attachment: fixed;
+  color: #f5f2eb;
+  font-family:
+    var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Text Selection */
+::selection {
+  background-color: #e5a93c;
+  color: #14171a;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #14171a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #252c34;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e5a93c;
+}
+
+/* Subtle Tape / Paper Pin Accent */
+.tape-top {
+  position: relative;
+}
+.tape-top::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 72px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Pulsing Recording Glow */
+@keyframes pulse-amber {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(229, 169, 60, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(229, 169, 60, 0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.pulse-recording {
+  animation: pulse-amber 2s infinite ease-in-out;
+}
+
+/* Smooth transitions */
+.transition-dashboard {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
