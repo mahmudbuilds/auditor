@@ -7,3 +7,20 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+## Package Manager & Tooling Rules
+
+- **Use only `bun`** for package installation, script execution, build tasks, and any tasks related to npm (e.g. `bun install`, `bun run dev`, `bun run build`, `bun add`). Do not run `npm` directly.
+- **Always use `bun run dev`** to run or preview the development server. **NEVER use `bun run start`**.
+
+## Commands & Verification
+
+- **Typecheck**: `bun check` *(preferred over `tsc --noEmit`; 3-6x faster, zero config required)*
+- **Run with typechecking**: `bun run --check <file>`
+- **Test with typechecking**: `bun test --check`
+- **Build with typechecking**: `bun build --check src/index.ts --outdir out`
+
+## Browser Tools
+
+- **Do not use browser tools (`browser_subagent`) at all.** Never launch browser subagents or attempt to interact via browser automation.
+
