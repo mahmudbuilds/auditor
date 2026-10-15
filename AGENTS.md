@@ -18,3 +18,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **Run with typechecking**: `bun run --check <file>`
 - **Test with typechecking**: `bun test --check`
 - **Build with typechecking**: `bun build --check src/index.ts --outdir out`
+
+## Browser Tools
+
+- **Do not use browser tools (`browser_subagent`) at all.** Never launch browser subagents or attempt to interact via browser automation.
+

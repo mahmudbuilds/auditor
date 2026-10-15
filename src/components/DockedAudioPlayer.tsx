@@ -11,6 +11,7 @@ interface DockedAudioPlayerProps {
   onTogglePlay: () => void;
   onOpenWorkspace: (recording: RecordingItem) => void;
   onClose?: () => void;
+  isSidebarCollapsed?: boolean;
 }
 
 export function DockedAudioPlayer({
@@ -19,6 +20,7 @@ export function DockedAudioPlayer({
   onTogglePlay,
   onOpenWorkspace,
   onClose,
+  isSidebarCollapsed = false,
 }: DockedAudioPlayerProps) {
   const [currentSeconds, setCurrentSeconds] = useState(120);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
@@ -30,6 +32,7 @@ export function DockedAudioPlayer({
     percent: number;
     seconds: number;
   } | null>(null);
+  const [isDraggingScrubber, setIsDraggingScrubber] = useState(false);
 
   const totalSeconds = recording.durationSeconds || 1800;
   const scrubberRef = useRef<HTMLDivElement>(null);
@@ -116,23 +119,55 @@ export function DockedAudioPlayer({
     45, 40, 60, 75, 50, 65, 80, 70, 55, 65, 80, 60, 45,
   ];
 
-  const handleScrubberMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const updateScrubberFromPointer = (clientX: number) => {
+    if (!scrubberRef.current) return;
+    const rect = scrubberRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    const pct = (x / rect.width) * 100;
+    const secs = Math.floor((pct / 100) * totalSeconds);
+    setCurrentSeconds(secs);
+    setHoverPosition({ percent: pct, seconds: secs });
+  };
+
+  const handleScrubberPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    try {
+      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    } catch {
+      // safe fallback
+    }
+    setIsDraggingScrubber(true);
+    updateScrubberFromPointer(e.clientX);
+  };
+
+  const handleScrubberPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!scrubberRef.current) return;
     const rect = scrubberRef.current.getBoundingClientRect();
     const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
     const pct = (x / rect.width) * 100;
     const secs = Math.floor((pct / 100) * totalSeconds);
     setHoverPosition({ percent: pct, seconds: secs });
+    if (isDraggingScrubber) {
+      setCurrentSeconds(secs);
+    }
   };
 
-  const handleScrubberMouseLeave = () => {
-    setHoverPosition(null);
+  const handleScrubberPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (isDraggingScrubber) {
+      setIsDraggingScrubber(false);
+      try {
+        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+      } catch {
+        // safe fallback
+      }
+    }
   };
 
   return (
     <div
       id="docked-audio-player-container"
-      className="fixed bottom-0 left-0 right-0 lg:left-64 z-40 bg-[#161a20]/95 backdrop-blur-md border-t border-white/[0.1] px-4 sm:px-6 py-3 shadow-[0_-8px_30px_rgba(0,0,0,0.5)] animate-slide-up"
+      className={`fixed bottom-0 right-0 z-40 apple-dock px-4 sm:px-6 py-3 transition-[left] duration-300 spring-crit ${
+        isSidebarCollapsed ? "lg:left-[72px]" : "lg:left-64"
+      } left-0`}
     >
       {/* Top enhanced micro progress bar with pulse glow */}
       <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#20252c]">
@@ -160,7 +195,7 @@ export function DockedAudioPlayer({
             type="button"
             onClick={onTogglePlay}
             id="docked-play-pause-btn"
-            className="h-11 w-11 rounded-full bg-[#e5a93c] hover:bg-[#f3b74b] text-[#14171a] flex items-center justify-center flex-shrink-0 shadow-[0_4px_16px_rgba(229,169,60,0.35)] transition-transform active:scale-95"
+            className="h-11 w-11 rounded-full bg-[#e5a93c] hover:bg-[#f3b74b] text-[#14171a] flex items-center justify-center flex-shrink-0 shadow-[0_4px_16px_rgba(229,169,60,0.35)] apple-press cursor-pointer"
             aria-label={isPlaying ? "Pause audio" : "Play audio"}
           >
             {isPlaying ? (
@@ -188,14 +223,14 @@ export function DockedAudioPlayer({
                 {recording.speaker}
               </span>
             </div>
-            <h4 className="font-sans text-xs sm:text-sm font-semibold text-[#f5f2eb] truncate mt-0.5 tracking-tight">
+            <h4 className="font-sans text-xs sm:text-sm font-semibold text-[#f5f2eb] truncate mt-0.5 tracking-tight apple-headline">
               {recording.title}
             </h4>
             {/* Live Spoken Segment preview */}
             {activeSegment && (
               <p className="text-[11px] text-[#9ba1a8] truncate flex items-center gap-1 mt-0.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] animate-pulse flex-shrink-0" />
-                <span className="text-[#c59e5e] font-mono text-[10px]">
+                <span className="text-[#c59e5e] font-mono text-[10px] tabular-nums">
                   {activeSegment.timestamp}
                 </span>
                 <span className="truncate italic">
@@ -256,17 +291,22 @@ export function DockedAudioPlayer({
             })}
           </div>
 
-          {/* Scrubber Slider Track with Custom Filled Gradient */}
+          {/* Scrubber Slider Track with 1:1 Pointer Capture Direct Manipulation */}
           <div
             ref={scrubberRef}
-            onMouseMove={handleScrubberMouseMove}
-            onMouseLeave={handleScrubberMouseLeave}
-            className="w-full relative py-1"
+            onPointerDown={handleScrubberPointerDown}
+            onPointerMove={handleScrubberPointerMove}
+            onPointerUp={handleScrubberPointerUp}
+            onPointerCancel={handleScrubberPointerUp}
+            onPointerLeave={() => {
+              if (!isDraggingScrubber) setHoverPosition(null);
+            }}
+            className="w-full relative py-1.5 cursor-pointer touch-none select-none"
           >
             {/* Hover timestamp tooltip */}
             {hoverPosition && (
               <div
-                className="absolute -top-7 -translate-x-1/2 pointer-events-none z-30 bg-[#252c34] border border-white/20 px-2 py-0.5 rounded text-[10px] font-mono font-semibold text-[#f5f2eb] shadow-lg flex items-center gap-1"
+                className="absolute -top-7 -translate-x-1/2 pointer-events-none z-30 bg-[#252c34] border border-white/20 px-2 py-0.5 rounded text-[10px] font-mono font-semibold text-[#f5f2eb] shadow-lg flex items-center gap-1 tabular-nums animate-fade-in"
                 style={{ left: `${hoverPosition.percent}%` }}
               >
                 <span>{formatTime(hoverPosition.seconds)}</span>
@@ -282,7 +322,7 @@ export function DockedAudioPlayer({
               <div className="absolute top-0 left-0 h-full w-[94%] bg-white/[0.06]" />
               {/* Filled Progress Gradient Bar */}
               <div
-                className="h-full bg-gradient-to-r from-[#c59235] via-[#e5a93c] to-[#ffd175] transition-all duration-150"
+                className="h-full bg-gradient-to-r from-[#c59235] via-[#e5a93c] to-[#ffd175] transition-all duration-75"
                 style={{ width: `${progressPercent}%` }}
               />
               {/* Ghost hover position indicator */}
@@ -297,24 +337,13 @@ export function DockedAudioPlayer({
             {/* Glowing Circular Scrubber Thumb Head */}
             <div
               className={`absolute top-1/2 -translate-y-1/2 -mt-0.5 h-3.5 w-3.5 rounded-full bg-[#f5f2eb] border-2 border-[#e5a93c] shadow-[0_0_10px_rgba(229,169,60,0.85)] pointer-events-none transition-transform duration-100 ${
-                isPlaying ? "scale-110" : "scale-100"
+                isDraggingScrubber
+                  ? "scale-125 shadow-[0_0_14px_rgba(229,169,60,1)]"
+                  : isPlaying
+                    ? "scale-110"
+                    : "scale-100"
               }`}
               style={{ left: `calc(${progressPercent}% - 7px)` }}
-            />
-
-            {/* Accessible Overlaid HTML Range Input */}
-            <input
-              type="range"
-              min={0}
-              max={totalSeconds}
-              value={currentSeconds}
-              onChange={(e) => setCurrentSeconds(Number(e.target.value))}
-              aria-label="Audio playback progress"
-              aria-valuenow={currentSeconds}
-              aria-valuemin={0}
-              aria-valuemax={totalSeconds}
-              aria-valuetext={`${formatTime(currentSeconds)} of ${formatTime(totalSeconds)}`}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
             />
           </div>
 
@@ -355,7 +384,7 @@ export function DockedAudioPlayer({
             <button
               type="button"
               onClick={() => setCurrentSeconds((prev) => Math.max(0, prev - 10))}
-              className="p-1 hover:text-[#f5f2eb] rounded transition-colors text-xs flex items-center"
+              className="p-1 hover:text-[#f5f2eb] rounded transition-colors text-xs flex items-center apple-press-sm cursor-pointer"
               title="Rewind 10 seconds"
               aria-label="Rewind 10 seconds"
             >
@@ -377,7 +406,7 @@ export function DockedAudioPlayer({
             <button
               type="button"
               onClick={handleNextSpeed}
-              className="px-1.5 py-0.5 rounded bg-[#252c35] text-[#e5a93c] text-[11px] font-mono hover:bg-[#2d3540] transition-colors"
+              className="px-1.5 py-0.5 rounded bg-[#252c35] text-[#e5a93c] text-[11px] font-mono hover:bg-[#2d3540] transition-colors apple-press-sm cursor-pointer tabular-nums"
               title="Playback speed"
             >
               {playbackSpeed}x
@@ -388,7 +417,7 @@ export function DockedAudioPlayer({
               onClick={() =>
                 setCurrentSeconds((prev) => Math.min(totalSeconds, prev + 10))
               }
-              className="p-1 hover:text-[#f5f2eb] rounded transition-colors text-xs flex items-center"
+              className="p-1 hover:text-[#f5f2eb] rounded transition-colors text-xs flex items-center apple-press-sm cursor-pointer"
               title="Forward 10 seconds"
               aria-label="Forward 10 seconds"
             >
@@ -416,7 +445,7 @@ export function DockedAudioPlayer({
                 onClick={handleDownload}
                 disabled={downloadStatus === "downloading"}
                 id="docked-download-audio-btn"
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all apple-press-sm cursor-pointer ${
                   downloadStatus === "downloaded"
                     ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
                     : downloadStatus === "downloading"
@@ -490,7 +519,7 @@ export function DockedAudioPlayer({
               <button
                 type="button"
                 onClick={handleToggleDownloadVisibility}
-                className="p-1.5 text-[#8b919a] hover:text-[#f5f2eb] hover:bg-[#2a323d] rounded-lg transition-colors ml-0.5"
+                className="p-1.5 text-[#8b919a] hover:text-[#f5f2eb] hover:bg-[#2a323d] rounded-lg transition-colors ml-0.5 apple-press-sm cursor-pointer"
                 title="Hide download button from media player"
                 aria-label="Hide download button"
               >
@@ -514,7 +543,7 @@ export function DockedAudioPlayer({
             <button
               type="button"
               onClick={handleToggleDownloadVisibility}
-              className="p-1.5 rounded-xl bg-[#20262e]/70 hover:bg-[#252c34] text-[#8b919a] hover:text-[#e5a93c] border border-white/[0.06] hover:border-[#e5a93c]/30 transition-all text-xs flex items-center gap-1"
+              className="p-1.5 rounded-xl bg-[#20262e]/70 hover:bg-[#252c34] text-[#8b919a] hover:text-[#e5a93c] border border-white/[0.06] hover:border-[#e5a93c]/30 transition-all text-xs flex items-center gap-1 apple-press-sm cursor-pointer"
               title="Show media player download button"
               aria-label="Show download button"
             >
@@ -541,7 +570,7 @@ export function DockedAudioPlayer({
           <button
             type="button"
             onClick={() => onOpenWorkspace(recording)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#252c34] hover:bg-[#e5a93c] hover:text-[#14171a] text-xs font-semibold text-[#f5f2eb] border border-white/[0.08] transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#252c34] hover:bg-[#e5a93c] hover:text-[#14171a] text-xs font-semibold text-[#f5f2eb] border border-white/[0.08] transition-all apple-press cursor-pointer"
           >
             <span>Notes & AI</span>
             <svg
@@ -564,7 +593,7 @@ export function DockedAudioPlayer({
             <button
               type="button"
               onClick={onClose}
-              className="p-1.5 text-[#8b919a] hover:text-[#f5f2eb] rounded-lg hover:bg-[#20252c] transition-colors"
+              className="p-1.5 text-[#8b919a] hover:text-[#f5f2eb] rounded-lg hover:bg-[#20252c] transition-colors apple-press-sm cursor-pointer"
               title="Close player"
               aria-label="Close audio player"
             >

@@ -18,6 +18,8 @@
 
 html {
   scrollbar-gutter: stable;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* Custom Typography Helpers */
@@ -50,6 +52,9 @@ html {
 
 /* Base Body & Textured Backdrop */
 body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  position: relative;
   background-color: #14171a;
   background-image:
     radial-gradient(
@@ -132,7 +137,273 @@ body {
   animation: pulse-amber 2s infinite ease-in-out;
 }
 
-/* Smooth transitions */
+/* Smooth transitions & Apple Spring Curves */
 .transition-dashboard {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =========================================================================
+   APPLE DESIGN SYSTEM EXTENSIONS (WWDC Fluid Interfaces & Typography)
+   ========================================================================= */
+
+/* --- 1. Materials & Translucency --- */
+.apple-glass {
+  background: rgba(22, 26, 32, 0.78);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+}
+
+.apple-glass-heavy {
+  background: rgba(18, 22, 27, 0.86);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.apple-glass-card {
+  background: rgba(26, 30, 36, 0.72);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.09);
+}
+
+.apple-glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(30, 35, 42, 0.82);
+}
+
+.apple-dock {
+  background: rgba(20, 24, 30, 0.88);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+}
+
+/* --- 2. Instant Feedback & Press Response (Kill Latency) --- */
+.apple-press {
+  transform: translateZ(0);
+  transition: transform 100ms cubic-bezier(0.16, 1, 0.3, 1), filter 100ms ease-out;
+  user-select: none;
+}
+
+.apple-press:active {
+  transform: scale(0.97) translateZ(0);
+  filter: brightness(0.96);
+}
+
+.apple-press-sm {
+  transform: translateZ(0);
+  transition: transform 100ms cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.apple-press-sm:active {
+  transform: scale(0.94) translateZ(0);
+}
+
+.apple-press-row {
+  transform: translateZ(0);
+  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), background-color 150ms ease;
+}
+
+.apple-press-row:active {
+  transform: scale(0.992) translateZ(0);
+}
+
+/* --- 3. Apple Spring Physics Utilities --- */
+/* Critically damped default UI spring (damping 1.0, response ~0.35s) */
+.spring-crit {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Under-damped momentum spring (damping ~0.8, slight physical bounce on flick) */
+.spring-bounce {
+  transition-timing-function: cubic-bezier(0.34, 1.25, 0.64, 1);
+}
+
+/* Snappy sheet / drawer spring (fast response ~0.25s) */
+.spring-snappy {
+  transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* --- 4. Optical Typography Rules (Negative tracking on headings, tight leading) --- */
+.apple-display {
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  font-optical-sizing: auto;
+}
+
+.apple-headline {
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.apple-subhead {
+  letter-spacing: -0.005em;
+  line-height: 1.4;
+}
+
+.apple-caption {
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+.apple-tracked-label {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  font-size: 0.6875rem; /* 11px */
+}
+
+/* --- 5. Segmented Controls (iOS UISegmentedControl style) --- */
+.apple-segmented-group {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  padding: 0.25rem;
+  gap: 0.125rem;
+}
+
+.apple-segmented-item {
+  position: relative;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #9ba1a8;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.apple-segmented-item:hover {
+  color: #f5f2eb;
+}
+
+.apple-segmented-item.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f5f2eb;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+}
+
+/* --- 6. 3D Flashcard Flip System --- */
+.apple-flip-scene {
+  perspective: 1200px;
+  -webkit-perspective: 1200px;
+  width: 100%;
+  overflow: clip;
+  contain: layout;
+}
+
+.apple-flip-card {
+  position: relative;
+  width: 100%;
+  min-height: 320px;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.apple-flip-card.is-flipped {
+  transform: rotateY(180deg) translate3d(0, 0, 0);
+  -webkit-transform: rotateY(180deg) translate3d(0, 0, 0);
+}
+
+.apple-flip-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  /* Hardware-accelerated Apple dark surface (eliminates expensive per-frame GPU backdrop-filter blurs in 3D) */
+  background: linear-gradient(145deg, #1d222a 0%, #161a20 100%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.36), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.apple-flip-front {
+  transform: rotateY(0deg) translate3d(0, 0, 0);
+  -webkit-transform: rotateY(0deg) translate3d(0, 0, 0);
+  z-index: 2;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+}
+
+.apple-flip-card.is-flipped .apple-flip-front {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.apple-flip-back {
+  transform: rotateY(180deg) translate3d(0, 0, 0);
+  -webkit-transform: rotateY(180deg) translate3d(0, 0, 0);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 1;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+}
+
+.apple-flip-card.is-flipped .apple-flip-back {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  z-index: 2;
+}
+
+/* --- 7. Accessibility & Media Preferences (Reduced Motion & Reduced Transparency) --- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .pulse-recording {
+    animation: none !important;
+  }
+
+  .apple-press:active,
+  .apple-press-sm:active,
+  .apple-press-row:active {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .apple-glass,
+  .apple-glass-heavy,
+  .apple-glass-card,
+  .apple-dock,
+  header,
+  aside {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: #181c22 !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .apple-glass,
+  .apple-glass-heavy,
+  .apple-glass-card,
+  .apple-dock {
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  }
 }

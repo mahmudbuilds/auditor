@@ -55,7 +55,7 @@ export function HeroSection({
               <button
                 type="button"
                 onClick={onStartRecord}
-                className="inline-flex items-center gap-2.5 rounded bg-[#e5a93c] px-6 py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-[#14171a] shadow-[0_4px_20px_rgba(229,169,60,0.3)] hover:bg-[#f3b74b] hover:shadow-[0_6px_24px_rgba(229,169,60,0.4)] transition-all transform active:scale-[0.98]"
+                className="apple-press inline-flex items-center gap-2.5 rounded-full bg-[#e5a93c] px-7 py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-[#14171a] shadow-[0_4px_20px_rgba(229,169,60,0.3)] hover:bg-[#f3b74b]"
               >
                 <span className="h-2 w-2 rounded-full bg-[#14171a] animate-pulse" />
                 <span>Start Live Capture</span>
@@ -64,7 +64,7 @@ export function HeroSection({
               <button
                 type="button"
                 onClick={onExploreSessions}
-                className="group inline-flex items-center gap-2 text-sm text-[#e8e4dc] hover:text-[#e5a93c] transition-colors py-2"
+                className="apple-press-sm group inline-flex items-center gap-2 text-sm text-[#e8e4dc] hover:text-[#e5a93c] transition-colors py-2"
               >
                 <span className="font-editorial italic border-b border-[#e5a93c]/40 group-hover:border-[#e5a93c]">
                   Browse 14 Archived Sessions
@@ -78,15 +78,15 @@ export function HeroSection({
             {/* Micro Specs */}
             <div className="mt-10 flex items-center gap-6 border-t border-white/[0.08] pt-6 text-xs text-[#828892] font-telemetry">
               <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] shadow-[0_0_6px_rgba(229,169,60,0.6)]" />
                 <span>Zero Latency Speech-to-Text</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] shadow-[0_0_6px_rgba(229,169,60,0.6)]" />
                 <span>Grounded AI Synthesis</span>
               </div>
               <div className="hidden sm:flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c]" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] shadow-[0_0_6px_rgba(229,169,60,0.6)]" />
                 <span>Local-First Resilience</span>
               </div>
             </div>
@@ -97,8 +97,8 @@ export function HeroSection({
             <div className="relative w-full max-w-md">
               {/* Subtle vintage tape at top */}
               <div className="tape-top">
-                <div className="overflow-hidden rounded-sm border border-white/[0.12] bg-[#1e2227] p-2 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
-                  <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xs bg-[#14171a]">
+                <div className="overflow-hidden rounded-2xl border border-white/[0.12] apple-glass-card p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+                  <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-[#14171a]">
                     <Image
                       src="/images/hero.jpg"
                       alt="Auditorium VII amphitheater perched above the Mediterranean sea"
@@ -112,7 +112,7 @@ export function HeroSection({
                     <div className="absolute inset-0 bg-gradient-to-t from-[#14171a]/80 via-transparent to-black/20 pointer-events-none" />
 
                     {/* Badge over photo */}
-                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between rounded bg-[#181b1f]/85 px-3 py-2 backdrop-blur-md border border-white/10 text-xs">
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between rounded-xl apple-glass px-3.5 py-2.5 border border-white/10 text-xs shadow-lg">
                       <div className="flex items-center gap-2">
                         <span className="h-2 w-2 rounded-full bg-[#e5a93c] animate-pulse" />
                         <span className="font-telemetry text-[11px] text-[#f4f1eb]">

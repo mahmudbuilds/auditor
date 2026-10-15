@@ -66,20 +66,20 @@ export function TelemetryWidget({ onQuickRecord }: TelemetryWidgetProps) {
     >
       <div className="mx-auto max-w-6xl px-6 sm:px-8">
         {/* The "YOUR MONTH" Telemetry Container */}
-        <div className="rounded-sm border border-white/[0.1] bg-[#1a1d22] p-6 sm:p-8 shadow-[0_12px_36px_rgba(0,0,0,0.5)]">
+        <div className="apple-glass-card rounded-3xl p-6 sm:p-8">
           {/* Top Row: Title & Month Filter Pills */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-white/[0.08] pb-6">
             <div>
-              <h2 className="font-roman text-sm tracking-[0.2em] text-[#f4f1eb]">
+              <h2 className="apple-tracked-label text-sm tracking-[0.2em] font-semibold text-[#f4f1eb]">
                 YOUR MONTH
               </h2>
-              <p className="font-editorial italic text-xs text-[#8e959e] mt-0.5">
+              <p className="apple-subhead italic text-xs text-[#8e959e] mt-0.5">
                 Archival speech metrics and transcription fidelity telemetry
               </p>
             </div>
 
-            {/* Filter Pills */}
-            <div className="flex items-center gap-1.5 flex-wrap">
+            {/* Filter Pills - Segmented Control */}
+            <div className="apple-segmented-group p-1 flex items-center gap-1 flex-wrap">
               {["OCT", "NOV", "DEC", "JAN", "FEB"].map((month) => {
                 const isActive = selectedMonth === month;
                 return (
@@ -87,10 +87,10 @@ export function TelemetryWidget({ onQuickRecord }: TelemetryWidgetProps) {
                     key={month}
                     type="button"
                     onClick={() => setSelectedMonth(month)}
-                    className={`px-3 py-1 text-xs font-telemetry tracking-wider rounded transition-all ${
+                    className={`apple-segmented-item px-3 py-1.5 text-xs font-mono tabular-nums tracking-wider rounded-lg spring-snappy cursor-pointer ${
                       isActive
-                        ? "bg-[#e5a93c] text-[#14171a] font-bold shadow-[0_0_12px_rgba(229,169,60,0.3)]"
-                        : "text-[#8e959e] hover:text-[#f4f1eb] hover:bg-white/[0.04]"
+                        ? "active text-[#f4f1eb] font-bold"
+                        : "text-[#8e959e] hover:text-[#f4f1eb]"
                     }`}
                   >
                     {month}
@@ -102,12 +102,12 @@ export function TelemetryWidget({ onQuickRecord }: TelemetryWidgetProps) {
 
           {/* Middle Row: Metrics & Diagnostic Breakdown */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 py-8 items-center">
-            {/* Metric 1: Hours / Minutes (matches "20:06" in reference) */}
+            {/* Metric 1: Hours / Minutes */}
             <div className="md:col-span-4 border-b md:border-b-0 md:border-r border-white/[0.08] pb-6 md:pb-0 pr-0 md:pr-6">
-              <div className="font-telemetry text-4xl sm:text-5xl font-light text-[#f4f1eb] tracking-tight">
+              <div className="font-telemetry tabular-nums text-4xl sm:text-5xl font-light text-[#f4f1eb] tracking-tight">
                 {current.hours}
               </div>
-              <div className="mt-2 font-roman text-[11px] tracking-[0.16em] text-[#8e959e]">
+              <div className="mt-2 apple-tracked-label text-[11px] font-semibold text-[#8e959e]">
                 HOURS RECORDED
               </div>
               <div className="font-editorial italic text-xs text-[#b8bdc5] mt-0.5">
@@ -115,15 +115,15 @@ export function TelemetryWidget({ onQuickRecord }: TelemetryWidgetProps) {
               </div>
             </div>
 
-            {/* Metric 2: Sessions / Accuracy (matches "15°C" in reference) */}
+            {/* Metric 2: Sessions / Accuracy */}
             <div className="md:col-span-3 border-b md:border-b-0 md:border-r border-white/[0.08] pb-6 md:pb-0 pr-0 md:pr-6">
-              <div className="font-telemetry text-4xl sm:text-5xl font-light text-[#e5a93c] tracking-tight">
+              <div className="font-telemetry tabular-nums text-4xl sm:text-5xl font-light text-[#e5a93c] tracking-tight">
                 {current.sessions}
                 <span className="text-xl font-light text-[#8e959e] ml-1">
                   ses
                 </span>
               </div>
-              <div className="mt-2 font-roman text-[11px] tracking-[0.16em] text-[#8e959e]">
+              <div className="mt-2 apple-tracked-label text-[11px] font-semibold text-[#8e959e]">
                 LECTURES AUDITED
               </div>
               <div className="font-editorial italic text-xs text-[#b8bdc5] mt-0.5">
@@ -134,23 +134,23 @@ export function TelemetryWidget({ onQuickRecord }: TelemetryWidgetProps) {
             {/* Diagnostics List with Amber Bullets */}
             <div className="md:col-span-5 space-y-2.5 text-xs font-editorial pl-0 md:pl-4">
               <div className="flex items-start gap-2.5 text-[#d8d4cc]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] mt-1.5 shrink-0" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] mt-1.5 shrink-0 shadow-[0_0_6px_rgba(229,169,60,0.6)]" />
                 <span>Neural Whisper v3 Large active on local web worker</span>
               </div>
               <div className="flex items-start gap-2.5 text-[#d8d4cc]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] mt-1.5 shrink-0" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] mt-1.5 shrink-0 shadow-[0_0_6px_rgba(229,169,60,0.6)]" />
                 <span>
                   3 distinct speakers diarized with confidence &gt; 98%
                 </span>
               </div>
               <div className="flex items-start gap-2.5 text-[#d8d4cc]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] mt-1.5 shrink-0" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] mt-1.5 shrink-0 shadow-[0_0_6px_rgba(229,169,60,0.6)]" />
                 <span>
                   Real-time noise floor: -44 dB (Studio quiet suppression)
                 </span>
               </div>
               <div className="flex items-start gap-2.5 text-[#d8d4cc]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] mt-1.5 shrink-0" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c] mt-1.5 shrink-0 shadow-[0_0_6px_rgba(229,169,60,0.6)]" />
                 <span>Automatic two-way export to Obsidian, Notion & Anki</span>
               </div>
             </div>
@@ -166,7 +166,7 @@ export function TelemetryWidget({ onQuickRecord }: TelemetryWidgetProps) {
             <button
               type="button"
               onClick={onQuickRecord}
-              className="inline-flex items-center gap-1.5 font-roman text-[11px] tracking-wider text-[#e5a93c] hover:text-[#f3b74b] transition-colors self-start sm:self-auto"
+              className="apple-press-sm inline-flex items-center gap-1.5 apple-tracked-label text-[11px] font-semibold text-[#e5a93c] hover:text-[#f3b74b] transition-colors self-start sm:self-auto cursor-pointer"
             >
               <span>LAUNCH LIVE CAPTURE NOW</span>
               <span>→</span>

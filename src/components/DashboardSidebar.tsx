@@ -220,7 +220,7 @@ export function DashboardSidebar({
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 flex flex-col bg-[#14171a] border-r border-white/[0.08] transition-all duration-300 lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-40 flex flex-col apple-glass-heavy border-r border-white/[0.08] transition-[width,transform] duration-300 spring-crit lg:translate-x-0 ${
           isMobileOpen
             ? "translate-x-0 w-64"
             : "-translate-x-full lg:translate-x-0"
@@ -231,7 +231,7 @@ export function DashboardSidebar({
           {!isCollapsed ? (
             <>
               <div className="flex items-center gap-3 min-w-0">
-                <div className="h-8 w-8 rounded-lg bg-[#e5a93c]/15 border border-[#e5a93c]/40 flex items-center justify-center text-[#e5a93c] flex-shrink-0">
+                <div className="h-8 w-8 rounded-lg bg-[#e5a93c]/15 border border-[#e5a93c]/40 flex items-center justify-center text-[#e5a93c] flex-shrink-0 shadow-[0_2px_8px_rgba(229,169,60,0.15)]">
                   <svg
                     aria-hidden="true"
                     className="w-4 h-4"
@@ -380,15 +380,15 @@ export function DashboardSidebar({
                   isCollapsed
                     ? "justify-center px-0 py-2.5"
                     : "gap-3 px-3 py-2.5"
-                } rounded-lg text-sm font-medium transition-colors ${
+                } rounded-xl text-sm font-medium transition-colors apple-press-row cursor-pointer ${
                   currentView === "overview"
-                    ? "bg-[#1f242b] text-[#f5f2eb] border border-white/[0.08] shadow-sm"
-                    : "text-[#9ba1a8] hover:bg-[#1a1e23] hover:text-[#f5f2eb]"
+                    ? "bg-[#1f242b] text-[#f5f2eb] border border-white/[0.1] shadow-sm font-semibold"
+                    : "text-[#9ba1a8] hover:bg-white/[0.05] hover:text-[#f5f2eb]"
                 }`}
               >
                 <svg
                   aria-hidden="true"
-                  className={`w-4 h-4 flex-shrink-0 ${
+                  className={`w-4 h-4 flex-shrink-0 transition-colors ${
                     currentView === "overview"
                       ? "text-[#e5a93c]"
                       : "text-[#9ba1a8]"
@@ -423,10 +423,10 @@ export function DashboardSidebar({
                   isCollapsed
                     ? "justify-center px-0 py-2.5"
                     : "justify-between px-3 py-2.5"
-                } rounded-lg text-sm font-medium transition-colors ${
+                } rounded-xl text-sm font-medium transition-colors apple-press-row cursor-pointer ${
                   currentView === "library"
-                    ? "bg-[#1f242b] text-[#f5f2eb] border border-white/[0.08] shadow-sm"
-                    : "text-[#9ba1a8] hover:bg-[#1a1e23] hover:text-[#f5f2eb]"
+                    ? "bg-[#1f242b] text-[#f5f2eb] border border-white/[0.1] shadow-sm font-semibold"
+                    : "text-[#9ba1a8] hover:bg-white/[0.05] hover:text-[#f5f2eb]"
                 }`}
               >
                 <div
@@ -434,7 +434,7 @@ export function DashboardSidebar({
                 >
                   <svg
                     aria-hidden="true"
-                    className={`w-4 h-4 flex-shrink-0 ${
+                    className={`w-4 h-4 flex-shrink-0 transition-colors ${
                       currentView === "library"
                         ? "text-[#e5a93c]"
                         : "text-[#9ba1a8]"
@@ -456,7 +456,7 @@ export function DashboardSidebar({
                   )}
                 </div>
                 {!isCollapsed && (
-                  <span className="text-xs px-2 py-0.5 rounded bg-[#252c34] text-[#d4a34b] font-mono">
+                  <span className="text-xs px-2 py-0.5 rounded-md bg-[#252c34] text-[#d4a34b] font-mono tabular-nums">
                     {stats.totalRecordings}
                   </span>
                 )}
@@ -474,15 +474,15 @@ export function DashboardSidebar({
                   isCollapsed
                     ? "justify-center px-0 py-2.5"
                     : "gap-3 px-3 py-2.5"
-                } rounded-lg text-sm font-medium transition-colors ${
+                } rounded-xl text-sm font-medium transition-colors apple-press-row cursor-pointer ${
                   currentView === "study-hub"
-                    ? "bg-[#1f242b] text-[#f5f2eb] border border-white/[0.08] shadow-sm"
-                    : "text-[#9ba1a8] hover:bg-[#1a1e23] hover:text-[#f5f2eb]"
+                    ? "bg-[#1f242b] text-[#f5f2eb] border border-white/[0.1] shadow-sm font-semibold"
+                    : "text-[#9ba1a8] hover:bg-white/[0.05] hover:text-[#f5f2eb]"
                 }`}
               >
                 <svg
                   aria-hidden="true"
-                  className={`w-4 h-4 flex-shrink-0 ${
+                  className={`w-4 h-4 flex-shrink-0 transition-colors ${
                     currentView === "study-hub"
                       ? "text-[#e5a93c]"
                       : "text-[#9ba1a8]"

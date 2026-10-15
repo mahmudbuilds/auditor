@@ -71,16 +71,16 @@ export function RecordingsTable({
   });
 
   return (
-    <div className="rounded-2xl bg-[#181c22] border border-white/[0.08] overflow-hidden shadow-sm">
+    <div className="rounded-2xl apple-glass-card overflow-hidden shadow-md">
       {/* Active Course Banner when filtered */}
       {selectedCourse !== "All Courses" && (
-        <div className="px-4 sm:px-5 py-2.5 bg-[#1e242d] border-b border-white/[0.06] flex items-center justify-between text-xs">
+        <div className="px-4 sm:px-5 py-2.5 bg-white/[0.04] border-b border-white/[0.06] flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
             <span className="text-[#8b919a]">Showing:</span>
             <span className="font-semibold text-[#e5a93c] bg-[#e5a93c]/15 px-2 py-0.5 rounded border border-[#e5a93c]/30">
               {selectedCourse}
             </span>
-            <span className="text-[#8b919a] text-[11px]">
+            <span className="text-[#8b919a] text-[11px] tabular-nums font-mono">
               ({baseRecordings.length}{" "}
               {baseRecordings.length === 1 ? "session" : "sessions"})
             </span>
@@ -89,7 +89,7 @@ export function RecordingsTable({
             <button
               type="button"
               onClick={() => onSelectCourse("All Courses")}
-              className="text-[#e5a93c] hover:underline font-medium cursor-pointer"
+              className="text-[#e5a93c] hover:underline font-medium cursor-pointer apple-press-sm"
             >
               Show all courses
             </button>
@@ -99,15 +99,13 @@ export function RecordingsTable({
 
       {/* Top Filter & View Controls */}
       <div className="p-4 sm:p-5 border-b border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        {/* Filter Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+        {/* iOS UISegmentedControl Filter Tabs */}
+        <div className="apple-segmented-group overflow-x-auto pb-1 sm:pb-0 max-w-full">
           <button
             type="button"
             onClick={() => setActiveTab("all")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-colors ${
-              activeTab === "all"
-                ? "bg-[#252c34] text-[#f5f2eb] border border-white/[0.1] font-semibold"
-                : "text-[#8b919a] hover:text-[#f5f2eb]"
+            className={`apple-segmented-item apple-press-sm cursor-pointer whitespace-nowrap ${
+              activeTab === "all" ? "active" : ""
             }`}
           >
             All ({baseRecordings.length})
@@ -115,34 +113,26 @@ export function RecordingsTable({
           <button
             type="button"
             onClick={() => setActiveTab("lecture")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-colors ${
-              activeTab === "lecture"
-                ? "bg-[#252c34] text-[#f5f2eb] border border-white/[0.1] font-semibold"
-                : "text-[#8b919a] hover:text-[#f5f2eb]"
+            className={`apple-segmented-item apple-press-sm cursor-pointer whitespace-nowrap ${
+              activeTab === "lecture" ? "active" : ""
             }`}
           >
-            Lectures (
-            {baseRecordings.filter((r) => r.type === "lecture").length})
+            Lectures ({baseRecordings.filter((r) => r.type === "lecture").length})
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("voice_memo")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-colors ${
-              activeTab === "voice_memo"
-                ? "bg-[#252c34] text-[#f5f2eb] border border-white/[0.1] font-semibold"
-                : "text-[#8b919a] hover:text-[#f5f2eb]"
+            className={`apple-segmented-item apple-press-sm cursor-pointer whitespace-nowrap ${
+              activeTab === "voice_memo" ? "active" : ""
             }`}
           >
-            Voice Memos (
-            {baseRecordings.filter((r) => r.type === "voice_memo").length})
+            Voice Memos ({baseRecordings.filter((r) => r.type === "voice_memo").length})
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("starred")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-colors ${
-              activeTab === "starred"
-                ? "bg-[#252c34] text-[#f5f2eb] border border-white/[0.1] font-semibold"
-                : "text-[#8b919a] hover:text-[#f5f2eb]"
+            className={`apple-segmented-item apple-press-sm cursor-pointer whitespace-nowrap ${
+              activeTab === "starred" ? "active" : ""
             }`}
           >
             Starred ★ ({baseRecordings.filter((r) => r.isStarred).length})
@@ -151,13 +141,13 @@ export function RecordingsTable({
 
         {/* View Switcher: List vs Grid */}
         <div className="flex items-center gap-2 self-end sm:self-auto">
-          <div className="inline-flex rounded-xl bg-[#14171a] p-1 border border-white/[0.08]">
+          <div className="apple-segmented-group">
             <button
               type="button"
               onClick={() => setViewMode("list")}
-              className={`p-1.5 rounded-lg text-xs transition-colors ${
+              className={`p-1.5 rounded-lg text-xs apple-press-sm cursor-pointer transition-colors ${
                 viewMode === "list"
-                  ? "bg-[#252c34] text-[#f5f2eb]"
+                  ? "bg-white/[0.12] text-[#f5f2eb] shadow-sm"
                   : "text-[#8b919a] hover:text-[#f5f2eb]"
               }`}
               title="List view"
@@ -179,9 +169,9 @@ export function RecordingsTable({
             <button
               type="button"
               onClick={() => setViewMode("grid")}
-              className={`p-1.5 rounded-lg text-xs transition-colors ${
+              className={`p-1.5 rounded-lg text-xs apple-press-sm cursor-pointer transition-colors ${
                 viewMode === "grid"
-                  ? "bg-[#252c34] text-[#f5f2eb]"
+                  ? "bg-white/[0.12] text-[#f5f2eb] shadow-sm"
                   : "text-[#8b919a] hover:text-[#f5f2eb]"
               }`}
               title="Grid card view"
@@ -253,10 +243,10 @@ export function RecordingsTable({
               <div
                 key={rec.id}
                 onClick={() => onSelectRecording(rec)}
-                className={`p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all cursor-pointer ${
+                className={`p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all spring-crit apple-press-row cursor-pointer ${
                   isSelected
-                    ? "bg-[#212730]/80 border-l-2 border-[#e5a93c]"
-                    : "hover:bg-[#1e232a]/70"
+                    ? "bg-[#212730]/90 border-l-2 border-[#e5a93c]"
+                    : "hover:bg-white/[0.04]"
                 }`}
               >
                 {/* Left: Play button + Title + Snippet */}
@@ -268,7 +258,7 @@ export function RecordingsTable({
                       e.stopPropagation();
                       onTogglePlay(rec);
                     }}
-                    className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 transition-transform active:scale-90 shadow-sm ${
+                    className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 transition-transform apple-press-sm cursor-pointer shadow-sm ${
                       isCurrentPlaying
                         ? "bg-[#e5a93c] text-[#14171a] shadow-[0_2px_12px_rgba(229,169,60,0.4)]"
                         : "bg-[#242a32] text-[#e5a93c] hover:bg-[#e5a93c] hover:text-[#14171a]"
@@ -309,12 +299,12 @@ export function RecordingsTable({
                       </span>
                     </div>
 
-                    <h4 className="font-sans text-sm sm:text-base font-semibold text-[#f5f2eb] mt-1 group-hover:text-[#e5a93c] transition-colors truncate tracking-tight">
+                    <h4 className="font-sans text-sm sm:text-base font-semibold text-[#f5f2eb] mt-1 group-hover:text-[#e5a93c] transition-colors truncate tracking-tight apple-headline">
                       {rec.title}
                     </h4>
 
                     {/* AI Takeaway preview snippet */}
-                    <p className="text-xs text-[#9ba1a8] mt-1 line-clamp-1">
+                    <p className="text-xs text-[#9ba1a8] mt-1 line-clamp-1 apple-subhead">
                       {rec.summary.overview}
                     </p>
                   </div>
@@ -325,17 +315,17 @@ export function RecordingsTable({
                   className="flex items-center justify-between sm:justify-end gap-3.5 sm:flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-white/[0.04]"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <span className="font-mono text-xs text-[#8b919a]">
+                  <span className="font-mono text-xs text-[#8b919a] tabular-nums">
                     {rec.duration}
                   </span>
 
-                  {/* Star Toggle */}
+                  {/* Star Toggle with spring bounce */}
                   <button
                     type="button"
                     onClick={() => onToggleStar(rec.id)}
-                    className={`p-2 rounded-lg hover:bg-[#252c34] text-sm transition-colors ${
+                    className={`p-2 rounded-lg hover:bg-white/[0.06] text-sm transition-all apple-press-sm cursor-pointer ${
                       rec.isStarred
-                        ? "text-[#e5a93c]"
+                        ? "text-[#e5a93c] scale-110"
                         : "text-[#8b919a] hover:text-[#f5f2eb]"
                     }`}
                     title={rec.isStarred ? "Remove star" : "Star note"}
@@ -347,7 +337,7 @@ export function RecordingsTable({
                   <button
                     type="button"
                     onClick={() => onOpenWorkspace(rec)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#242a32] hover:bg-[#e5a93c] hover:text-[#14171a] text-xs font-semibold text-[#f5f2eb] border border-white/[0.08] transition-all"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#242a32] hover:bg-[#e5a93c] hover:text-[#14171a] text-xs font-semibold text-[#f5f2eb] border border-white/[0.08] transition-all apple-press cursor-pointer"
                   >
                     <span>Notes & AI</span>
                     <svg
@@ -380,10 +370,10 @@ export function RecordingsTable({
               <div
                 key={rec.id}
                 onClick={() => onSelectRecording(rec)}
-                className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
+                className={`p-5 rounded-2xl apple-glass-card hover:scale-[1.01] transition-all spring-crit cursor-pointer flex flex-col justify-between ${
                   isSelected
-                    ? "bg-[#212730] border-[#e5a93c]/50 shadow-md"
-                    : "bg-[#181c22] border-white/[0.06] hover:border-white/[0.14] hover:bg-[#1d2228]"
+                    ? "border-[#e5a93c]/50 shadow-md ring-1 ring-[#e5a93c]/30"
+                    : ""
                 }`}
               >
                 <div>
@@ -404,22 +394,22 @@ export function RecordingsTable({
                         e.stopPropagation();
                         onToggleStar(rec.id);
                       }}
-                      className={`text-sm ${
-                        rec.isStarred ? "text-[#e5a93c]" : "text-[#8b919a]"
+                      className={`text-sm apple-press-sm cursor-pointer transition-transform ${
+                        rec.isStarred ? "text-[#e5a93c] scale-110" : "text-[#8b919a]"
                       }`}
                     >
                       ★
                     </button>
                   </div>
 
-                  <h4 className="font-sans text-base sm:text-lg font-semibold text-[#f5f2eb] line-clamp-2 tracking-tight leading-snug">
+                  <h4 className="font-sans text-base sm:text-lg font-semibold text-[#f5f2eb] line-clamp-2 tracking-tight leading-snug apple-headline">
                     {rec.title}
                   </h4>
                   <p className="text-xs text-[#8b919a] mt-1">
                     {rec.speaker} · {rec.date}
                   </p>
 
-                  <p className="text-xs text-[#9ba1a8] mt-3 line-clamp-3 leading-relaxed">
+                  <p className="text-xs text-[#9ba1a8] mt-3 line-clamp-3 leading-relaxed apple-subhead">
                     {rec.summary.overview}
                   </p>
                 </div>
@@ -432,7 +422,7 @@ export function RecordingsTable({
                         e.stopPropagation();
                         onTogglePlay(rec);
                       }}
-                      className="h-8 w-8 rounded-full bg-[#e5a93c] text-[#14171a] flex items-center justify-center transition-transform active:scale-95"
+                      className="h-8 w-8 rounded-full bg-[#e5a93c] text-[#14171a] flex items-center justify-center apple-press-sm cursor-pointer"
                     >
                       {isCurrentPlaying ? (
                         <div className="flex items-center gap-0.5 h-3">
@@ -449,7 +439,7 @@ export function RecordingsTable({
                         </svg>
                       )}
                     </button>
-                    <span className="text-xs font-mono text-[#8b919a]">
+                    <span className="text-xs font-mono text-[#8b919a] tabular-nums">
                       {rec.duration}
                     </span>
                   </div>
@@ -460,7 +450,7 @@ export function RecordingsTable({
                       e.stopPropagation();
                       onOpenWorkspace(rec);
                     }}
-                    className="text-xs text-[#e5a93c] hover:underline font-semibold"
+                    className="text-xs text-[#e5a93c] hover:underline font-semibold apple-press-sm cursor-pointer"
                   >
                     Notes & AI →
                   </button>

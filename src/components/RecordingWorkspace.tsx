@@ -38,8 +38,52 @@ export function RecordingWorkspace({
     percent: number;
     seconds: number;
   } | null>(null);
+  const [isDraggingScrubber, setIsDraggingScrubber] = useState(false);
 
   const scrubberRef = useRef<HTMLDivElement>(null);
+
+  const updateScrubberFromPointer = (clientX: number) => {
+    if (!scrubberRef.current) return;
+    const rect = scrubberRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    const pct = (x / rect.width) * 100;
+    const secs = Math.floor((pct / 100) * totalSeconds);
+    setCurrentSeconds(secs);
+    setHoverPosition({ percent: pct, seconds: secs });
+  };
+
+  const handleScrubberPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    try {
+      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    } catch {
+      // safe fallback
+    }
+    setIsDraggingScrubber(true);
+    updateScrubberFromPointer(e.clientX);
+  };
+
+  const handleScrubberPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!scrubberRef.current) return;
+    const rect = scrubberRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+    const pct = (x / rect.width) * 100;
+    const secs = Math.floor((pct / 100) * totalSeconds);
+    setHoverPosition({ percent: pct, seconds: secs });
+    if (isDraggingScrubber) {
+      setCurrentSeconds(secs);
+    }
+  };
+
+  const handleScrubberPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (isDraggingScrubber) {
+      setIsDraggingScrubber(false);
+      try {
+        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+      } catch {
+        // safe fallback
+      }
+    }
+  };
 
   // Load download visibility preference from localStorage
   useEffect(() => {
@@ -228,12 +272,12 @@ export function RecordingWorkspace({
   return (
     <div className="space-y-4">
       {/* Top Workspace Navigation Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-5 rounded-xl bg-[#1a1e24] border border-white/[0.08]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl apple-glass-card">
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={onBack}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#252c34] hover:bg-[#2f3742] text-xs font-medium text-[#f5f2eb] border border-white/[0.08] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-xs font-medium text-[#f5f2eb] border border-white/[0.08] transition-colors apple-press-sm cursor-pointer"
           >
             <span>←</span>
             <span>Dashboard</span>
@@ -255,7 +299,7 @@ export function RecordingWorkspace({
                 · {recording.date}
               </span>
             </div>
-            <h2 className="font-sans text-xl sm:text-2xl font-bold text-[#f5f2eb] tracking-tight mt-0.5">
+            <h2 className="font-sans text-xl sm:text-2xl font-bold text-[#f5f2eb] tracking-tight mt-0.5 apple-headline">
               {recording.title}
             </h2>
           </div>
@@ -266,10 +310,10 @@ export function RecordingWorkspace({
           <button
             type="button"
             onClick={() => onToggleStar(recording.id)}
-            className={`p-2 rounded-lg border border-white/[0.08] text-xs transition-colors ${
+            className={`p-2 rounded-lg border border-white/[0.08] text-xs transition-colors apple-press-sm cursor-pointer ${
               recording.isStarred
-                ? "bg-[#e5a93c]/15 text-[#e5a93c] border-[#e5a93c]/30"
-                : "bg-[#252c34] text-[#8b919a] hover:text-[#f5f2eb]"
+                ? "bg-[#e5a93c]/15 text-[#e5a93c] border-[#e5a93c]/30 scale-105"
+                : "bg-white/[0.06] text-[#8b919a] hover:text-[#f5f2eb]"
             }`}
             title="Star note"
           >
@@ -279,7 +323,7 @@ export function RecordingWorkspace({
           <button
             type="button"
             onClick={handleCopyTranscript}
-            className="px-3 py-1.5 rounded-lg bg-[#252c34] hover:bg-[#2f3742] text-xs font-medium text-[#f5f2eb] border border-white/[0.08] transition-colors"
+            className="px-3 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-xs font-medium text-[#f5f2eb] border border-white/[0.08] transition-colors apple-press-sm cursor-pointer"
           >
             {copyFeedback ? "Copied!" : "Copy Transcript"}
           </button>
@@ -287,14 +331,14 @@ export function RecordingWorkspace({
       </div>
 
       {/* Synchronized Workspace Audio Player Bar */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-[#161a1f] border border-white/[0.08] shadow-md space-y-3.5">
+      <div className="p-4 sm:p-5 rounded-2xl apple-glass-card space-y-3.5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           {/* Controls: Play/Pause, Rewind, FastForward, Time Readout */}
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={onTogglePlay}
-              className="h-10 w-10 rounded-full bg-[#e5a93c] hover:bg-[#f3b74b] text-[#14171a] flex items-center justify-center shadow-[0_2px_12px_rgba(229,169,60,0.35)] active:scale-95 transition-transform"
+              className="h-10 w-10 rounded-full bg-[#e5a93c] hover:bg-[#f3b74b] text-[#14171a] flex items-center justify-center shadow-[0_2px_12px_rgba(229,169,60,0.35)] apple-press cursor-pointer"
               aria-label={isPlaying ? "Pause audio" : "Play audio"}
             >
               {isPlaying ? (
@@ -314,7 +358,7 @@ export function RecordingWorkspace({
             <button
               type="button"
               onClick={() => setCurrentSeconds((p) => Math.max(0, p - 10))}
-              className="px-2 py-1 text-xs text-[#8b919a] hover:text-[#f5f2eb] rounded hover:bg-[#20252c] transition-colors"
+              className="px-2 py-1 text-xs text-[#8b919a] hover:text-[#f5f2eb] rounded hover:bg-white/[0.06] transition-colors apple-press-sm cursor-pointer"
               title="Rewind 10s"
             >
               -10s
@@ -325,13 +369,13 @@ export function RecordingWorkspace({
               onClick={() =>
                 setCurrentSeconds((p) => Math.min(totalSeconds, p + 10))
               }
-              className="px-2 py-1 text-xs text-[#8b919a] hover:text-[#f5f2eb] rounded hover:bg-[#20252c] transition-colors"
+              className="px-2 py-1 text-xs text-[#8b919a] hover:text-[#f5f2eb] rounded hover:bg-white/[0.06] transition-colors apple-press-sm cursor-pointer"
               title="Forward 10s"
             >
               +10s
             </button>
 
-            <div className="flex items-center gap-2 text-xs font-mono">
+            <div className="flex items-center gap-2 text-xs font-mono tabular-nums">
               <span className="font-semibold text-[#f5f2eb]">
                 {formatTime(currentSeconds)}
               </span>
@@ -342,7 +386,7 @@ export function RecordingWorkspace({
 
             {/* Progress Percentage Badge */}
             <div
-              className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#e5a93c]/15 text-[#e5a93c] border border-[#e5a93c]/30 text-[11px] font-mono font-bold"
+              className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#e5a93c]/15 text-[#e5a93c] border border-[#e5a93c]/30 text-[11px] font-mono font-bold tabular-nums"
               title="Audio playback progress"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c]" />
@@ -546,24 +590,22 @@ export function RecordingWorkspace({
           })}
         </div>
 
-        {/* High-Visibility Custom Scrubber Slider Track */}
+        {/* High-Visibility Custom Scrubber Slider Track with 1:1 Pointer Capture */}
         <div
           ref={scrubberRef}
-          onMouseMove={(e) => {
-            if (!scrubberRef.current) return;
-            const rect = scrubberRef.current.getBoundingClientRect();
-            const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
-            const pct = (x / rect.width) * 100;
-            const secs = Math.floor((pct / 100) * totalSeconds);
-            setHoverPosition({ percent: pct, seconds: secs });
+          onPointerDown={handleScrubberPointerDown}
+          onPointerMove={handleScrubberPointerMove}
+          onPointerUp={handleScrubberPointerUp}
+          onPointerCancel={handleScrubberPointerUp}
+          onPointerLeave={() => {
+            if (!isDraggingScrubber) setHoverPosition(null);
           }}
-          onMouseLeave={() => setHoverPosition(null)}
-          className="w-full relative py-1"
+          className="w-full relative py-1.5 cursor-pointer touch-none select-none"
         >
           {/* Hover timestamp tooltip */}
           {hoverPosition && (
             <div
-              className="absolute -top-7 -translate-x-1/2 pointer-events-none z-30 bg-[#252c34] border border-white/20 px-2 py-0.5 rounded text-[10px] font-mono font-semibold text-[#f5f2eb] shadow-lg flex items-center gap-1"
+              className="absolute -top-7 -translate-x-1/2 pointer-events-none z-30 bg-[#252c34] border border-white/20 px-2 py-0.5 rounded text-[10px] font-mono font-semibold text-[#f5f2eb] shadow-lg flex items-center gap-1 tabular-nums animate-fade-in"
               style={{ left: `${hoverPosition.percent}%` }}
             >
               <span>{formatTime(hoverPosition.seconds)}</span>
@@ -579,7 +621,7 @@ export function RecordingWorkspace({
             <div className="absolute top-0 left-0 h-full w-[95%] bg-white/[0.06]" />
             {/* Filled Progress Bar */}
             <div
-              className="h-full bg-gradient-to-r from-[#c59235] via-[#e5a93c] to-[#ffd175] transition-all duration-150"
+              className="h-full bg-gradient-to-r from-[#c59235] via-[#e5a93c] to-[#ffd175] transition-all duration-75"
               style={{
                 width: `${Math.min(100, (currentSeconds / totalSeconds) * 100)}%`,
               }}
@@ -596,22 +638,15 @@ export function RecordingWorkspace({
           {/* Glowing Playhead Head */}
           <div
             className={`absolute top-1/2 -translate-y-1/2 -mt-0.5 h-4 w-4 rounded-full bg-[#f5f2eb] border-2 border-[#e5a93c] shadow-[0_0_10px_rgba(229,169,60,0.85)] pointer-events-none transition-transform duration-100 ${
-              isPlaying ? "scale-110" : "scale-100"
+              isDraggingScrubber
+                ? "scale-125 shadow-[0_0_14px_rgba(229,169,60,1)]"
+                : isPlaying
+                  ? "scale-110"
+                  : "scale-100"
             }`}
             style={{
               left: `calc(${Math.min(100, (currentSeconds / totalSeconds) * 100)}% - 8px)`,
             }}
-          />
-
-          {/* Transparent Input Range */}
-          <input
-            type="range"
-            min={0}
-            max={totalSeconds}
-            value={currentSeconds}
-            onChange={(e) => setCurrentSeconds(Number(e.target.value))}
-            aria-label="Audio scrubber"
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
           />
         </div>
 
@@ -629,17 +664,17 @@ export function RecordingWorkspace({
       {/* Split Workspace: Left Pane = Synchronized Transcript; Right Pane = AI Notes & Grounded Q&A */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Left Column (lg:col-span-6): Interactive Transcript */}
-        <div className="lg:col-span-6 rounded-xl bg-[#1a1e24] border border-white/[0.08] flex flex-col h-[650px] overflow-hidden">
+        <div className="lg:col-span-6 apple-glass-card rounded-2xl flex flex-col h-[650px] overflow-hidden">
           {/* Header & Local Search */}
-          <div className="p-4 border-b border-white/[0.08] space-y-3 bg-[#14171a]/50">
+          <div className="p-4 border-b border-white/[0.06] space-y-3 bg-white/[0.02]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#e5a93c]" />
-                <h3 className="text-xs uppercase tracking-[0.16em] font-semibold text-[#c59e5e]">
+                <span className="h-2 w-2 rounded-full bg-[#e5a93c] shadow-[0_0_8px_rgba(229,169,60,0.6)]" />
+                <h3 className="apple-tracked-label text-xs uppercase font-semibold text-[#c59e5e]">
                   Synchronized Transcript
                 </h3>
               </div>
-              <span className="text-xs text-[#8b919a] font-mono">
+              <span className="text-xs text-[#8b919a] font-mono tabular-nums">
                 {recording.transcript.length} speech segments
               </span>
             </div>
@@ -651,10 +686,10 @@ export function RecordingWorkspace({
                 value={transcriptSearch}
                 onChange={(e) => setTranscriptSearch(e.target.value)}
                 placeholder="Search words spoken in this lecture..."
-                className="w-full pl-8 pr-4 py-1.5 bg-[#1b2026] border border-white/[0.08] focus:border-[#e5a93c]/50 rounded-lg text-xs text-[#f5f2eb] placeholder-[#8b919a] outline-none"
+                className="w-full pl-9 pr-4 py-2 bg-black/25 border border-white/[0.08] focus:border-[#e5a93c]/50 focus:bg-black/40 rounded-full text-xs text-[#f5f2eb] placeholder-[#8b919a] outline-none spring-crit"
               />
               <svg
-                className="w-3.5 h-3.5 text-[#8b919a] absolute left-2.5 top-2"
+                className="w-3.5 h-3.5 text-[#8b919a] absolute left-3 top-2.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -670,7 +705,7 @@ export function RecordingWorkspace({
           </div>
 
           {/* Transcript Scrollable Area */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          <div className="flex-1 overflow-y-auto p-4 space-y-2.5">
             {filteredTranscript.length === 0 ? (
               <div className="p-8 text-center text-xs text-[#8b919a]">
                 No phrases matched "{transcriptSearch}".
@@ -684,10 +719,11 @@ export function RecordingWorkspace({
                 return (
                   <div
                     key={seg.id}
-                    className={`p-3 rounded-lg border transition-all ${
+                    onClick={() => handleSeek(seg.seconds)}
+                    className={`p-3.5 rounded-xl border apple-press-row cursor-pointer transition-all ${
                       isCurrent
-                        ? "bg-[#252c36] border-[#e5a93c]/40 shadow-sm"
-                        : "bg-[#181c22]/70 border-white/[0.04] hover:border-white/[0.1] hover:bg-[#1b2027]"
+                        ? "bg-[#e5a93c]/10 border-[#e5a93c]/40 shadow-[0_0_16px_rgba(229,169,60,0.12)]"
+                        : "bg-white/[0.02] border-white/[0.04] hover:border-white/[0.1] hover:bg-white/[0.04]"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
@@ -696,7 +732,7 @@ export function RecordingWorkspace({
                           {seg.speaker}
                         </span>
                         {isCurrent && (
-                          <span className="text-[10px] uppercase font-bold text-[#e5a93c] bg-[#e5a93c]/15 px-1.5 py-0.2 rounded">
+                          <span className="text-[10px] uppercase font-bold text-[#e5a93c] bg-[#e5a93c]/15 px-2 py-0.5 rounded-full border border-[#e5a93c]/20">
                             Playing
                           </span>
                         )}
@@ -705,8 +741,11 @@ export function RecordingWorkspace({
                       {/* Clickable timestamp that jumps audio */}
                       <button
                         type="button"
-                        onClick={() => handleSeek(seg.seconds)}
-                        className="font-mono text-[11px] text-[#e5a93c] hover:underline bg-[#14171a] px-2 py-0.5 rounded border border-white/[0.06]"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSeek(seg.seconds);
+                        }}
+                        className="font-mono tabular-nums text-[11px] text-[#e5a93c] bg-white/[0.04] hover:bg-white/[0.08] px-2.5 py-0.5 rounded-full border border-white/[0.08] apple-press-sm"
                         title="Jump playback to this moment"
                       >
                         {seg.timestamp}
@@ -724,68 +763,70 @@ export function RecordingWorkspace({
         </div>
 
         {/* Right Column (lg:col-span-6): AI Intelligence & Grounded Chat */}
-        <div className="lg:col-span-6 rounded-xl bg-[#1a1e24] border border-white/[0.08] flex flex-col h-[650px] overflow-hidden">
-          {/* Tabs */}
-          <div className="p-2 border-b border-white/[0.08] bg-[#14171a]/50 flex items-center gap-1 overflow-x-auto">
-            <button
-              type="button"
-              onClick={() => setActiveTab("summary")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
-                activeTab === "summary"
-                  ? "bg-[#252c34] text-[#f5f2eb] border border-white/[0.08]"
-                  : "text-[#8b919a] hover:text-[#f5f2eb]"
-              }`}
-            >
-              Overview
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("takeaways")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
-                activeTab === "takeaways"
-                  ? "bg-[#252c34] text-[#f5f2eb] border border-white/[0.08]"
-                  : "text-[#8b919a] hover:text-[#f5f2eb]"
-              }`}
-            >
-              Key Takeaways ({recording.summary.keyTakeaways.length})
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("questions")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
-                activeTab === "questions"
-                  ? "bg-[#252c34] text-[#f5f2eb] border border-white/[0.08]"
-                  : "text-[#8b919a] hover:text-[#f5f2eb]"
-              }`}
-            >
-              Study Quiz ({recording.summary.studyQuestions.length})
-            </button>
-            {recording.summary.actionItems &&
-              recording.summary.actionItems.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("actions")}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
-                    activeTab === "actions"
-                      ? "bg-[#252c34] text-[#f5f2eb] border border-white/[0.08]"
-                      : "text-[#8b919a] hover:text-[#f5f2eb]"
-                  }`}
-                >
-                  Action Items ({recording.summary.actionItems.length})
-                </button>
-              )}
-            <button
-              type="button"
-              onClick={() => setActiveTab("chat")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1.5 ${
-                activeTab === "chat"
-                  ? "bg-[#252c34] text-[#e5a93c] border border-[#e5a93c]/30"
-                  : "text-[#8b919a] hover:text-[#f5f2eb]"
-              }`}
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c]" />
-              <span>Ask AI</span>
-            </button>
+        <div className="lg:col-span-6 apple-glass-card rounded-2xl flex flex-col h-[650px] overflow-hidden">
+          {/* iOS-style Segmented Control Tabs */}
+          <div className="p-3 border-b border-white/[0.06] bg-white/[0.02]">
+            <div className="apple-segmented-group flex items-center p-1 overflow-x-auto">
+              <button
+                type="button"
+                onClick={() => setActiveTab("summary")}
+                className={`apple-segmented-item px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap spring-snappy cursor-pointer ${
+                  activeTab === "summary"
+                    ? "active text-[#f5f2eb] font-semibold"
+                    : "text-[#8b919a] hover:text-[#f5f2eb]"
+                }`}
+              >
+                Overview
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("takeaways")}
+                className={`apple-segmented-item px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap spring-snappy cursor-pointer ${
+                  activeTab === "takeaways"
+                    ? "active text-[#f5f2eb] font-semibold"
+                    : "text-[#8b919a] hover:text-[#f5f2eb]"
+                }`}
+              >
+                Key Takeaways ({recording.summary.keyTakeaways.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("questions")}
+                className={`apple-segmented-item px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap spring-snappy cursor-pointer ${
+                  activeTab === "questions"
+                    ? "active text-[#f5f2eb] font-semibold"
+                    : "text-[#8b919a] hover:text-[#f5f2eb]"
+                }`}
+              >
+                Study Quiz ({recording.summary.studyQuestions.length})
+              </button>
+              {recording.summary.actionItems &&
+                recording.summary.actionItems.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("actions")}
+                    className={`apple-segmented-item px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap spring-snappy cursor-pointer ${
+                      activeTab === "actions"
+                        ? "active text-[#f5f2eb] font-semibold"
+                        : "text-[#8b919a] hover:text-[#f5f2eb]"
+                    }`}
+                  >
+                    Action Items ({recording.summary.actionItems.length})
+                  </button>
+                )}
+              <button
+                type="button"
+                onClick={() => setActiveTab("chat")}
+                className={`apple-segmented-item px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap spring-snappy cursor-pointer flex items-center gap-1.5 ${
+                  activeTab === "chat"
+                    ? "active text-[#e5a93c] font-semibold"
+                    : "text-[#8b919a] hover:text-[#f5f2eb]"
+                }`}
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-[#e5a93c]" />
+                <span>Ask AI</span>
+              </button>
+            </div>
           </div>
 
           {/* Tab Content Panes */}
@@ -794,7 +835,7 @@ export function RecordingWorkspace({
             {activeTab === "summary" && (
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-sans text-base sm:text-lg font-semibold text-[#f5f2eb] tracking-tight mb-2">
+                  <h3 className="apple-headline text-base sm:text-lg font-semibold text-[#f5f2eb] mb-2">
                     Lecture Summary & Themes
                   </h3>
                   <p className="text-xs text-[#cfd4dc] leading-relaxed whitespace-pre-line">
@@ -803,7 +844,7 @@ export function RecordingWorkspace({
                 </div>
 
                 <div className="pt-4 border-t border-white/[0.06] space-y-2">
-                  <span className="text-[11px] uppercase tracking-[0.16em] font-semibold text-[#c59e5e]">
+                  <span className="apple-tracked-label text-[11px] uppercase font-semibold text-[#c59e5e]">
                     Why This Matters
                   </span>
                   <p className="text-xs text-[#9ba1a8] leading-relaxed">
@@ -818,10 +859,10 @@ export function RecordingWorkspace({
             {/* TAB 2: KEY TAKEAWAYS */}
             {activeTab === "takeaways" && (
               <div className="space-y-3">
-                <h3 className="font-sans text-base sm:text-lg font-semibold text-[#f5f2eb] tracking-tight mb-1">
+                <h3 className="apple-headline text-base sm:text-lg font-semibold text-[#f5f2eb] mb-1">
                   Core Takeaways
                 </h3>
-                <p className="text-xs text-[#8b919a] mb-3">
+                <p className="apple-subhead text-xs text-[#8b919a] mb-3">
                   High-yield concepts distilled from the recorded audio.
                 </p>
 
@@ -829,9 +870,9 @@ export function RecordingWorkspace({
                   {recording.summary.keyTakeaways.map((point, idx) => (
                     <div
                       key={idx}
-                      className="p-3 rounded-lg bg-[#181c22] border border-white/[0.04] flex items-start gap-3"
+                      className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/[0.1] apple-press-row flex items-start gap-3"
                     >
-                      <span className="h-5 w-5 rounded-full bg-[#e5a93c]/15 text-[#e5a93c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="h-5 w-5 rounded-full bg-[#e5a93c]/15 text-[#e5a93c] text-xs font-bold font-mono tabular-nums flex items-center justify-center flex-shrink-0 mt-0.5 border border-[#e5a93c]/20">
                         {idx + 1}
                       </span>
                       <p className="text-xs text-[#cfd4dc] leading-relaxed">
@@ -846,10 +887,10 @@ export function RecordingWorkspace({
             {/* TAB 3: STUDY QUESTIONS / EXAM PREP */}
             {activeTab === "questions" && (
               <div className="space-y-3">
-                <h3 className="font-sans text-base sm:text-lg font-semibold text-[#f5f2eb] tracking-tight mb-1">
+                <h3 className="apple-headline text-base sm:text-lg font-semibold text-[#f5f2eb] mb-1">
                   Study & Exam Questions
                 </h3>
-                <p className="text-xs text-[#8b919a] mb-3">
+                <p className="apple-subhead text-xs text-[#8b919a] mb-3">
                   Self-test questions to review comprehension before tests or
                   discussions.
                 </p>
@@ -865,7 +906,7 @@ export function RecordingWorkspace({
                       return (
                         <div
                           key={idx}
-                          className="p-3.5 rounded-lg bg-[#181c22] border border-white/[0.06] space-y-2"
+                          className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.1] apple-press-row space-y-2"
                         >
                           <div className="flex items-start justify-between gap-3">
                             <span className="text-xs font-semibold text-[#f5f2eb]">
@@ -874,14 +915,14 @@ export function RecordingWorkspace({
                             <button
                               type="button"
                               onClick={() => toggleQuestion(idx)}
-                              className="text-[11px] text-[#e5a93c] hover:underline whitespace-nowrap"
+                              className="text-[11px] text-[#e5a93c] hover:underline whitespace-nowrap apple-press-sm"
                             >
                               {isRevealed ? "Hide" : "Reveal Answer"}
                             </button>
                           </div>
 
                           {isRevealed && (
-                            <div className="pt-2 border-t border-white/[0.06] text-xs text-[#9ba1a8] leading-relaxed bg-[#14171a]/50 p-2.5 rounded">
+                            <div className="pt-2 border-t border-white/[0.06] text-xs text-[#cfd4dc] leading-relaxed bg-white/[0.03] p-3 rounded-lg">
                               <span className="font-semibold text-[#e5a93c]">
                                 Answer:{" "}
                               </span>
@@ -899,18 +940,18 @@ export function RecordingWorkspace({
             {/* TAB 4: ACTION ITEMS */}
             {activeTab === "actions" && (
               <div className="space-y-3">
-                <h3 className="font-sans text-base sm:text-lg font-semibold text-[#f5f2eb] tracking-tight mb-1">
+                <h3 className="apple-headline text-base sm:text-lg font-semibold text-[#f5f2eb] mb-1">
                   Action Items & Follow-ups
                 </h3>
                 <div className="space-y-2">
                   {(recording.summary.actionItems || []).map((action, idx) => (
                     <div
                       key={idx}
-                      className="p-3 rounded-lg bg-[#181c22] border border-white/[0.06] flex items-center gap-3 text-xs text-[#cfd4dc]"
+                      className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] apple-press-row flex items-center gap-3 text-xs text-[#cfd4dc]"
                     >
                       <input
                         type="checkbox"
-                        className="rounded border-[#343b44] text-[#e5a93c] focus:ring-0"
+                        className="rounded border-[#343b44] text-[#e5a93c] focus:ring-0 cursor-pointer"
                       />
                       <span>{action}</span>
                     </div>
@@ -931,22 +972,22 @@ export function RecordingWorkspace({
                       }`}
                     >
                       <div
-                        className={`max-w-[85%] rounded-xl p-3 text-xs leading-relaxed ${
+                        className={`max-w-[85%] p-3.5 text-xs leading-relaxed ${
                           msg.sender === "user"
-                            ? "bg-[#e5a93c] text-[#14171a] font-medium"
-                            : "bg-[#181c22] border border-white/[0.06] text-[#f5f2eb]"
+                            ? "bg-[#e5a93c] text-[#14171a] font-medium rounded-2xl rounded-br-sm shadow-md"
+                            : "apple-glass-card border border-white/[0.08] text-[#f5f2eb] rounded-2xl rounded-bl-sm shadow-sm"
                         }`}
                       >
                         <p className="whitespace-pre-line">{msg.text}</p>
                       </div>
-                      <span className="text-[10px] text-[#8b919a] mt-1 px-1">
+                      <span className="text-[10px] text-[#8b919a] mt-1 px-1 font-mono tabular-nums">
                         {msg.time}
                       </span>
                     </div>
                   ))}
 
                   {isTyping && (
-                    <div className="p-3 rounded-xl bg-[#181c22] border border-white/[0.06] text-xs text-[#8b919a] inline-flex items-center gap-2">
+                    <div className="p-3 rounded-2xl apple-glass-card text-xs text-[#8b919a] inline-flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-[#e5a93c] animate-pulse" />
                       <span>Reviewing lecture transcript...</span>
                     </div>
@@ -961,7 +1002,7 @@ export function RecordingWorkspace({
                         key={idx}
                         type="button"
                         onClick={() => handleSendChat(prompt)}
-                        className="px-2.5 py-1 rounded-full bg-[#20252b] hover:bg-[#282f37] text-[11px] text-[#cfd4dc] whitespace-nowrap border border-white/[0.06] transition-colors"
+                        className="apple-press-sm px-3 py-1 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-[11px] text-[#cfd4dc] whitespace-nowrap border border-white/[0.06] spring-crit"
                       >
                         {prompt}
                       </button>
@@ -981,12 +1022,12 @@ export function RecordingWorkspace({
                       value={chatInput}
                       onChange={(e) => setChatInput(e.target.value)}
                       placeholder="Ask anything about this recording..."
-                      className="flex-1 px-3 py-2 bg-[#14171a] border border-white/[0.08] focus:border-[#e5a93c]/50 rounded-lg text-xs text-[#f5f2eb] placeholder-[#8b919a] outline-none"
+                      className="flex-1 px-4 py-2.5 bg-black/25 border border-white/[0.08] focus:border-[#e5a93c]/50 focus:bg-black/40 rounded-full text-xs text-[#f5f2eb] placeholder-[#8b919a] outline-none spring-crit"
                     />
                     <button
                       type="submit"
                       disabled={!chatInput.trim() || isTyping}
-                      className="px-4 py-2 bg-[#e5a93c] disabled:opacity-50 hover:bg-[#f3b74b] text-[#14171a] font-semibold text-xs rounded-lg transition-all"
+                      className="apple-press px-4 py-2.5 bg-[#e5a93c] disabled:opacity-40 hover:bg-[#f3b74b] text-[#14171a] font-semibold text-xs rounded-full shadow-sm"
                     >
                       Ask
                     </button>

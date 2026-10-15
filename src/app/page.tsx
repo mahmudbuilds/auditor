@@ -245,7 +245,7 @@ export default function Home() {
           : "Lecture Intelligence Workspace";
 
   return (
-    <div className="min-h-screen bg-[#14171a] text-[#f5f2eb] flex pb-24">
+    <div className="min-h-screen bg-[#14171a] text-[#f5f2eb] flex pb-24 overflow-x-hidden w-full relative">
       {/* Left Collapsible Sidebar */}
       <DashboardSidebar
         currentView={currentView === "workspace" ? "overview" : currentView}
@@ -274,7 +274,7 @@ export default function Home() {
 
       {/* Main Content Area */}
       <div
-        className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+        className={`flex-1 flex flex-col min-w-0 overflow-x-hidden transition-[padding] duration-300 spring-crit ${
           isSidebarCollapsed ? "lg:pl-[72px]" : "lg:pl-64"
         }`}
       >
@@ -295,10 +295,10 @@ export default function Home() {
 
         {/* Main Body Container */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-6xl w-full mx-auto space-y-7">
-          {/* TOAST NOTIFICATION */}
+          {/* TOAST NOTIFICATION (Apple Glass Pill) */}
           {toastMessage && (
-            <div className="fixed bottom-24 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl bg-[#20262f] border border-[#e5a93c]/40 text-xs font-medium text-[#f5f2eb] shadow-xl animate-fade-in">
-              <span className="h-2 w-2 rounded-full bg-[#e5a93c]" />
+            <div className="fixed bottom-24 right-6 z-50 flex items-center gap-3 px-4 py-2.5 rounded-full apple-glass border border-[#e5a93c]/40 text-xs font-medium text-[#f5f2eb] shadow-2xl animate-fade-in">
+              <span className="h-2 w-2 rounded-full bg-[#e5a93c] animate-pulse" />
               <span>{toastMessage}</span>
             </div>
           )}
@@ -409,6 +409,7 @@ export default function Home() {
             setIsPlaying(false);
             setShowDockedPlayer(false);
           }}
+          isSidebarCollapsed={isSidebarCollapsed}
         />
       )}
 

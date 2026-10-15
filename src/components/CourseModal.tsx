@@ -121,7 +121,7 @@ export function CourseModal({
       aria-modal="true"
       aria-labelledby="course-modal-title"
       tabIndex={-1}
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xl animate-fade-in"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -129,21 +129,21 @@ export function CourseModal({
         if (e.key === "Escape") onClose();
       }}
     >
-      <div className="w-full max-w-lg rounded-2xl bg-[#181c22] border border-white/[0.12] shadow-2xl flex flex-col max-h-[92vh] overflow-hidden animate-scale-up">
+      <div className="w-full max-w-lg rounded-3xl apple-glass-heavy border border-white/[0.12] shadow-2xl flex flex-col max-h-[92vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.08] bg-[#14171a]/60">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-[#e5a93c]">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.08] bg-white/[0.02]">
+          <div className="flex items-center gap-3.5">
+            <div className="h-10 w-10 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-[#e5a93c] shadow-sm">
               <CourseIcon icon={selectedIcon} className="w-5 h-5" />
             </div>
             <div>
               <h2
                 id="course-modal-title"
-                className="font-editorial text-lg font-bold text-[#f5f2eb]"
+                className="apple-headline text-lg font-bold text-[#f5f2eb]"
               >
                 {mode === "add" ? "Add New Course" : "Edit Course"}
               </h2>
-              <p className="text-xs text-[#8b919a]">
+              <p className="apple-subhead text-xs text-[#8b919a]">
                 {mode === "add"
                   ? "Assign a name and symbol for this subject"
                   : `Update symbol or rename "${initialName}"`}
@@ -153,7 +153,7 @@ export function CourseModal({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-[#8b919a] hover:text-[#f5f2eb] hover:bg-white/[0.08] transition-colors"
+            className="apple-press-sm p-2 rounded-full text-[#8b919a] hover:text-[#f5f2eb] hover:bg-white/[0.08]"
             aria-label="Close dialog"
           >
             <svg
@@ -176,13 +176,13 @@ export function CourseModal({
         {/* Content Body */}
         <form
           onSubmit={handleSubmit}
-          className="flex-1 overflow-y-auto p-5 space-y-5"
+          className="flex-1 overflow-y-auto p-6 space-y-5"
         >
           {/* Course Name Input */}
           <div>
             <label
               htmlFor="course-name-input"
-              className="block text-xs uppercase tracking-wider font-semibold text-[#8b919a] mb-1.5"
+              className="apple-tracked-label block text-xs uppercase font-semibold text-[#8b919a] mb-1.5"
             >
               Course Name
             </label>
@@ -193,7 +193,7 @@ export function CourseModal({
               value={courseName}
               onChange={(e) => handleNameChange(e.target.value)}
               placeholder="e.g. Cognitive Psychology, Architecture 101..."
-              className={`w-full px-3.5 py-2.5 rounded-xl bg-[#121518] border text-sm text-[#f5f2eb] placeholder-[#6b7280] outline-none transition-all ${
+              className={`w-full px-4 py-3 rounded-xl bg-black/25 border text-sm text-[#f5f2eb] placeholder-[#6b7280] outline-none spring-crit focus:bg-black/40 ${
                 error
                   ? "border-red-500/60 focus:border-red-500 ring-1 ring-red-500/30"
                   : "border-white/10 focus:border-[#e5a93c]/70 focus:ring-1 focus:ring-[#e5a93c]/40"
@@ -222,7 +222,7 @@ export function CourseModal({
           <div>
             <div className="flex items-center justify-between mb-2">
               <div>
-                <span className="text-xs uppercase tracking-wider font-semibold text-[#8b919a]">
+                <span className="apple-tracked-label text-xs uppercase font-semibold text-[#8b919a]">
                   Course Symbol
                 </span>
                 <span className="ml-2 text-[11px] text-[#8b919a]/80 font-normal">
@@ -241,11 +241,11 @@ export function CourseModal({
                 value={searchFilter}
                 onChange={(e) => setSearchFilter(e.target.value)}
                 placeholder="Filter symbols (e.g. brain, math, chart)..."
-                className="w-full px-3 py-1.5 pl-8 rounded-lg bg-[#121518] border border-white/[0.08] text-xs text-[#f5f2eb] placeholder-[#6b7280] outline-none focus:border-white/20 transition-colors"
+                className="w-full px-3.5 py-2 pl-9 rounded-full bg-black/25 border border-white/[0.08] text-xs text-[#f5f2eb] placeholder-[#6b7280] outline-none focus:border-[#e5a93c]/50 focus:bg-black/40 spring-crit"
               />
               <svg
                 aria-hidden="true"
-                className="w-3.5 h-3.5 text-[#6b7280] absolute left-2.5 top-2.5"
+                className="w-3.5 h-3.5 text-[#6b7280] absolute left-3 top-2.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -261,7 +261,7 @@ export function CourseModal({
                 <button
                   type="button"
                   onClick={() => setSearchFilter("")}
-                  className="absolute right-2.5 top-2 text-xs text-[#8b919a] hover:text-[#f5f2eb]"
+                  className="absolute right-3 top-2 text-xs text-[#8b919a] hover:text-[#f5f2eb]"
                 >
                   ×
                 </button>
@@ -269,7 +269,7 @@ export function CourseModal({
             </div>
 
             {/* Icon Grid Pool */}
-            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-48 overflow-y-auto p-1 rounded-xl bg-[#121518]/60 border border-white/[0.06]">
+            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 max-h-48 overflow-y-auto p-1.5 rounded-2xl bg-black/25 border border-white/[0.06]">
               {filteredIcons.map((opt) => {
                 const isSelected = selectedIcon === opt.id;
                 return (
@@ -278,10 +278,10 @@ export function CourseModal({
                     type="button"
                     onClick={() => setSelectedIcon(opt.id)}
                     title={opt.label}
-                    className={`group relative flex flex-col items-center justify-center py-2.5 px-1.5 rounded-xl border transition-all text-center ${
+                    className={`apple-press-sm group relative flex flex-col items-center justify-center py-2.5 px-1.5 rounded-xl border spring-crit text-center ${
                       isSelected
                         ? "bg-[#e5a93c]/15 border-[#e5a93c] text-[#e5a93c] shadow-sm ring-1 ring-[#e5a93c]/40"
-                        : "bg-[#14171a]/70 border-white/[0.08] text-[#9ba1a8] hover:border-white/20 hover:text-[#f5f2eb] hover:bg-[#1f242b]"
+                        : "bg-white/[0.02] border-white/[0.06] text-[#9ba1a8] hover:border-white/20 hover:text-[#f5f2eb] hover:bg-white/[0.05]"
                     }`}
                   >
                     <CourseIcon
@@ -303,11 +303,11 @@ export function CourseModal({
           </div>
 
           {/* Live Preview Card */}
-          <div className="p-3 rounded-xl bg-[#121518] border border-white/[0.06] space-y-1.5">
-            <span className="text-[10px] uppercase tracking-wider font-semibold text-[#8b919a]">
+          <div className="apple-glass-card p-3.5 rounded-2xl space-y-1.5">
+            <span className="apple-tracked-label text-[10px] uppercase font-semibold text-[#8b919a]">
               Sidebar Preview
             </span>
-            <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-[#1f242b] border border-white/[0.08]">
+            <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08]">
               <CourseIcon
                 icon={selectedIcon}
                 className="w-4 h-4 text-[#e5a93c] flex-shrink-0"
@@ -323,11 +323,11 @@ export function CourseModal({
         </form>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-end gap-2.5 px-5 py-3.5 border-t border-white/[0.08] bg-[#14171a]/60">
+        <div className="flex items-center justify-end gap-2.5 px-6 py-4 border-t border-white/[0.08] bg-white/[0.02]">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-xs font-medium text-[#9ba1a8] hover:text-[#f5f2eb] rounded-xl hover:bg-[#20252b] transition-colors"
+            className="apple-press-sm px-4 py-2 text-xs font-medium text-[#8b919a] hover:text-[#f5f2eb]"
           >
             Cancel
           </button>
@@ -335,7 +335,7 @@ export function CourseModal({
             type="button"
             onClick={() => handleSubmit()}
             disabled={!trimmed || !!error}
-            className="px-5 py-2 text-xs font-semibold rounded-xl bg-[#e5a93c] hover:bg-[#d4992c] text-[#14171a] shadow-md transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="apple-press px-5 py-2.5 text-xs font-semibold rounded-full bg-[#e5a93c] hover:bg-[#f3b74b] text-[#14171a] shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {mode === "add" ? "Create Course" : "Save Changes"}
           </button>

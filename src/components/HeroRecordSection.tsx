@@ -30,10 +30,10 @@ export function HeroRecordSection({
   };
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-[#1c2128] to-[#161a20] border border-white/[0.08] p-6 sm:p-8 md:p-10 text-center shadow-lg">
+    <div className="relative overflow-hidden rounded-3xl apple-glass-card p-6 sm:p-8 md:p-10 text-center shadow-2xl">
       {/* Ambient background glow behind the record button */}
       <div
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-[#e5a93c]/[0.08] blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-[#e5a93c]/[0.1] blur-3xl"
         aria-hidden="true"
       />
 
@@ -46,7 +46,7 @@ export function HeroRecordSection({
             aria-hidden="true"
           />
           <div
-            className="absolute -inset-2 rounded-full border border-[#e5a93c]/30 group-hover:border-[#e5a93c]/60 group-hover:scale-105 transition-all duration-300"
+            className="absolute -inset-2 rounded-full border border-[#e5a93c]/30 group-hover:border-[#e5a93c]/60 group-hover:scale-105 transition-all duration-300 spring-crit"
             aria-hidden="true"
           />
 
@@ -56,14 +56,14 @@ export function HeroRecordSection({
             onClick={handleRecordClick}
             id="hero-main-record-btn"
             aria-label="Start recording audio"
-            className="relative h-24 w-24 sm:h-28 sm:w-28 rounded-full bg-gradient-to-b from-[#f3b74b] via-[#e5a93c] to-[#c59235] text-[#14171a] flex flex-col items-center justify-center shadow-[0_8px_30px_rgba(229,169,60,0.35)] group-hover:shadow-[0_12px_40px_rgba(229,169,60,0.5)] group-hover:scale-105 group-active:scale-95 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#e5a93c]/40"
+            className="relative h-24 w-24 sm:h-28 sm:w-28 rounded-full bg-gradient-to-b from-[#f3b74b] via-[#e5a93c] to-[#c59235] text-[#14171a] flex flex-col items-center justify-center shadow-[0_8px_30px_rgba(229,169,60,0.35)] group-hover:shadow-[0_12px_40px_rgba(229,169,60,0.5)] group-hover:scale-105 apple-press transition-all duration-300 spring-crit cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#e5a93c]/40"
           >
-            {/* Inner concentric ring */}
-            <div className="absolute inset-2 rounded-full border border-black/15 pointer-events-none" />
+            {/* Inner concentric ring with specular bevel */}
+            <div className="absolute inset-2 rounded-full border border-black/15 shadow-[inset_0_1px_2px_rgba(255,255,255,0.4)] pointer-events-none" />
 
             {/* Glowing Microphone Icon */}
             <svg
-              className="w-10 h-10 sm:w-11 sm:h-11 drop-shadow-sm transition-transform duration-300 group-hover:scale-110"
+              className="w-10 h-10 sm:w-11 sm:h-11 drop-shadow-sm transition-transform duration-300 spring-crit group-hover:scale-110"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -84,25 +84,23 @@ export function HeroRecordSection({
         </div>
 
         {/* Clear, focused invitation */}
-        <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#f5f2eb] mt-4 tracking-tight">
+        <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#f5f2eb] mt-4 apple-display tracking-tight">
           Tap to Record
         </h2>
-        <p className="text-xs sm:text-sm text-[#9ba1a8] mt-1 max-w-md">
+        <p className="text-xs sm:text-sm text-[#9ba1a8] mt-1 max-w-md apple-subhead">
           Capture lectures or voice notes. Auditor transcribes speech and
           extracts structured AI study takeaways instantly.
         </p>
 
-        {/* Streamlined presets (Clean, simple, non-intrusive) */}
+        {/* Streamlined presets (Apple segmented control) */}
         <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5">
-          {/* Mode Pill Toggle */}
-          <div className="inline-flex rounded-xl bg-[#14171a]/90 p-1 border border-white/[0.08]">
+          {/* iOS UISegmentedControl Mode Toggle */}
+          <div className="apple-segmented-group">
             <button
               type="button"
               onClick={() => setCaptureMode("lecture")}
-              className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                captureMode === "lecture"
-                  ? "bg-[#252c34] text-[#f5f2eb] shadow-sm font-semibold"
-                  : "text-[#8b919a] hover:text-[#f5f2eb]"
+              className={`apple-segmented-item apple-press-sm cursor-pointer ${
+                captureMode === "lecture" ? "active" : ""
               }`}
             >
               Lecture Mode
@@ -110,10 +108,8 @@ export function HeroRecordSection({
             <button
               type="button"
               onClick={() => setCaptureMode("memo")}
-              className={`px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                captureMode === "memo"
-                  ? "bg-[#252c34] text-[#f5f2eb] shadow-sm font-semibold"
-                  : "text-[#8b919a] hover:text-[#f5f2eb]"
+              className={`apple-segmented-item apple-press-sm cursor-pointer ${
+                captureMode === "memo" ? "active" : ""
               }`}
             >
               Voice Memo
@@ -125,7 +121,7 @@ export function HeroRecordSection({
             <select
               value={selectedCourse}
               onChange={(e) => setSelectedCourse(e.target.value)}
-              className="px-3.5 py-2 bg-[#14171a]/90 border border-white/[0.08] hover:border-white/[0.2] rounded-xl text-xs text-[#e5e0d6] outline-none cursor-pointer transition-colors"
+              className="px-3.5 py-1.5 bg-white/[0.05] border border-white/[0.08] hover:border-white/[0.2] rounded-xl text-xs text-[#e5e0d6] outline-none cursor-pointer transition-colors apple-press-sm"
             >
               {courseNames
                 .filter((c) => c !== "All Courses")
@@ -141,7 +137,7 @@ export function HeroRecordSection({
           <button
             type="button"
             onClick={() => setShowDetails(!showDetails)}
-            className="px-3 py-2 text-xs text-[#8b919a] hover:text-[#e5a93c] transition-colors"
+            className="px-3 py-1.5 text-xs text-[#8b919a] hover:text-[#e5a93c] transition-colors apple-press-sm cursor-pointer"
           >
             {showDetails ? "Hide Title" : "+ Add Title"}
           </button>
@@ -155,7 +151,7 @@ export function HeroRecordSection({
               value={customTitle}
               onChange={(e) => setCustomTitle(e.target.value)}
               placeholder="e.g. Chapter 4: Market Dynamics"
-              className="w-full px-3.5 py-2 rounded-xl bg-[#14171a] border border-white/[0.1] text-xs text-[#f5f2eb] placeholder-[#8b919a] outline-none focus:border-[#e5a93c]/60 text-center transition-all"
+              className="w-full px-3.5 py-2 rounded-xl bg-white/[0.05] border border-white/[0.1] text-xs text-[#f5f2eb] placeholder-[#8b919a] outline-none focus:border-[#e5a93c]/60 text-center transition-all"
             />
           </div>
         )}

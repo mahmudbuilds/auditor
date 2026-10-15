@@ -711,20 +711,20 @@ export function AiStudyHub({
       {/* ==================================================== */}
       {/* 1. TOP HEADER & INTENT PICKER BAR                   */}
       {/* ==================================================== */}
-      <div className="rounded-xl bg-[#1a1e24] border border-white/[0.08] p-5 sm:p-6 space-y-5">
+      <div className="apple-glass-card rounded-2xl p-5 sm:p-6 space-y-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#f5f2eb]">
+            <h2 className="apple-display text-2xl sm:text-3xl font-bold text-[#f5f2eb]">
               AI Study Assistant
             </h2>
-            <p className="text-xs text-[#9ba1a8] mt-1 leading-relaxed max-w-xl">
+            <p className="apple-subhead text-xs text-[#9ba1a8] mt-1 leading-relaxed max-w-xl">
               Targeted revision grounded in your lecture transcripts. Choose
               what you want to work on right now without distractions.
             </p>
           </div>
 
           {/* Scope Selector: Course Filter */}
-          <div className="flex items-center gap-2.5 self-start md:self-auto bg-[#14171a] px-3 py-1.5 rounded-lg border border-white/[0.08]">
+          <div className="flex items-center gap-2.5 self-start md:self-auto bg-black/25 px-3.5 py-1.5 rounded-full border border-white/[0.08]">
             <span className="text-[11px] font-medium text-[#9ba1a8]">
               Scope:
             </span>
@@ -746,20 +746,20 @@ export function AiStudyHub({
           </div>
         </div>
 
-        {/* Tactical Study Intent Selector */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 pt-1 border-t border-white/[0.06]">
+        {/* Tactical Study Intent Selector - Segmented Pill Control */}
+        <div className="apple-segmented-group p-1.5 grid grid-cols-2 lg:grid-cols-4 gap-1.5">
           {/* Option 1: Flashcards */}
           <button
             type="button"
             onClick={() => setActiveMode("flashcards")}
-            className={`flex items-center gap-3 p-3 rounded-lg text-left transition-all ${
+            className={`apple-segmented-item apple-press-row flex items-center gap-3 p-3 rounded-xl text-left spring-crit cursor-pointer ${
               activeMode === "flashcards"
-                ? "bg-[#232a32] text-[#f5f2eb] border border-[#e5a93c]/50 shadow-sm"
-                : "bg-[#16191e] text-[#9ba1a8] hover:bg-[#1f242b] hover:text-[#f5f2eb] border border-transparent"
+                ? "active text-[#f5f2eb]"
+                : "text-[#9ba1a8] hover:text-[#f5f2eb]"
             }`}
           >
             <div
-              className={`p-2 rounded-md ${
+              className={`p-2 rounded-lg ${
                 activeMode === "flashcards"
                   ? "bg-[#e5a93c]/20 text-[#e5a93c]"
                   : "bg-white/[0.05] text-[#9ba1a8]"
@@ -783,7 +783,7 @@ export function AiStudyHub({
             <div className="min-w-0">
               <div className="text-xs font-semibold truncate flex items-center gap-1.5">
                 <span>Revision Flashcards</span>
-                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-white/[0.06] text-[#c59e5e]">
+                <span className="text-[10px] font-mono tabular-nums px-1.5 py-0.5 rounded-full bg-white/[0.06] text-[#c59e5e]">
                   {allCards.length}
                 </span>
               </div>
@@ -797,14 +797,14 @@ export function AiStudyHub({
           <button
             type="button"
             onClick={() => setActiveMode("tutor")}
-            className={`flex items-center gap-3 p-3 rounded-lg text-left transition-all ${
+            className={`apple-segmented-item apple-press-row flex items-center gap-3 p-3 rounded-xl text-left spring-crit cursor-pointer ${
               activeMode === "tutor"
-                ? "bg-[#232a32] text-[#f5f2eb] border border-[#e5a93c]/50 shadow-sm"
-                : "bg-[#16191e] text-[#9ba1a8] hover:bg-[#1f242b] hover:text-[#f5f2eb] border border-transparent"
+                ? "active text-[#f5f2eb]"
+                : "text-[#9ba1a8] hover:text-[#f5f2eb]"
             }`}
           >
             <div
-              className={`p-2 rounded-md ${
+              className={`p-2 rounded-lg ${
                 activeMode === "tutor"
                   ? "bg-[#e5a93c]/20 text-[#e5a93c]"
                   : "bg-white/[0.05] text-[#9ba1a8]"
@@ -828,7 +828,7 @@ export function AiStudyHub({
             <div className="min-w-0">
               <div className="text-xs font-semibold truncate flex items-center gap-1.5">
                 <span>Ask AI Tutor</span>
-                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400">
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400">
                   Grounded
                 </span>
               </div>
@@ -842,14 +842,14 @@ export function AiStudyHub({
           <button
             type="button"
             onClick={() => setActiveMode("quiz")}
-            className={`flex items-center gap-3 p-3 rounded-lg text-left transition-all ${
+            className={`apple-segmented-item apple-press-row flex items-center gap-3 p-3 rounded-xl text-left spring-crit cursor-pointer ${
               activeMode === "quiz"
-                ? "bg-[#232a32] text-[#f5f2eb] border border-[#e5a93c]/50 shadow-sm"
-                : "bg-[#16191e] text-[#9ba1a8] hover:bg-[#1f242b] hover:text-[#f5f2eb] border border-transparent"
+                ? "active text-[#f5f2eb]"
+                : "text-[#9ba1a8] hover:text-[#f5f2eb]"
             }`}
           >
             <div
-              className={`p-2 rounded-md ${
+              className={`p-2 rounded-lg ${
                 activeMode === "quiz"
                   ? "bg-[#e5a93c]/20 text-[#e5a93c]"
                   : "bg-white/[0.05] text-[#9ba1a8]"
@@ -873,7 +873,7 @@ export function AiStudyHub({
             <div className="min-w-0">
               <div className="text-xs font-semibold truncate flex items-center gap-1.5">
                 <span>Practice Quiz</span>
-                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-white/[0.06] text-[#c59e5e]">
+                <span className="text-[10px] font-mono tabular-nums px-1.5 py-0.5 rounded-full bg-white/[0.06] text-[#c59e5e]">
                   {quizQuestions.length} Qs
                 </span>
               </div>
@@ -887,14 +887,14 @@ export function AiStudyHub({
           <button
             type="button"
             onClick={() => setActiveMode("guide")}
-            className={`flex items-center gap-3 p-3 rounded-lg text-left transition-all ${
+            className={`apple-segmented-item apple-press-row flex items-center gap-3 p-3 rounded-xl text-left spring-crit cursor-pointer ${
               activeMode === "guide"
-                ? "bg-[#232a32] text-[#f5f2eb] border border-[#e5a93c]/50 shadow-sm"
-                : "bg-[#16191e] text-[#9ba1a8] hover:bg-[#1f242b] hover:text-[#f5f2eb] border border-transparent"
+                ? "active text-[#f5f2eb]"
+                : "text-[#9ba1a8] hover:text-[#f5f2eb]"
             }`}
           >
             <div
-              className={`p-2 rounded-md ${
+              className={`p-2 rounded-lg ${
                 activeMode === "guide"
                   ? "bg-[#e5a93c]/20 text-[#e5a93c]"
                   : "bg-white/[0.05] text-[#9ba1a8]"
@@ -918,7 +918,7 @@ export function AiStudyHub({
             <div className="min-w-0">
               <div className="text-xs font-semibold truncate flex items-center gap-1.5">
                 <span>Study Guide</span>
-                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-white/[0.06] text-[#c59e5e]">
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-white/[0.06] text-[#c59e5e]">
                   Cheat Sheet
                 </span>
               </div>
@@ -936,12 +936,12 @@ export function AiStudyHub({
       {activeMode === "flashcards" && (
         <div className="space-y-4">
           {/* Deck Stats Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#1a1e24] px-4 py-3 rounded-xl border border-white/[0.08]">
+          <div className="apple-glass-card flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-3 rounded-2xl">
             <div className="flex items-center gap-3">
               <span className="text-xs font-semibold text-[#f5f2eb]">
                 {activeCourse} Flashcard Deck
               </span>
-              <span className="text-xs font-mono text-[#9ba1a8]">
+              <span className="text-xs font-mono tabular-nums text-[#9ba1a8]">
                 {allCards.length > 0
                   ? `Card ${activeCardIndex + 1} of ${allCards.length}`
                   : "0 cards"}
@@ -952,7 +952,7 @@ export function AiStudyHub({
               <div className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
                 <span className="text-[#9ba1a8]">Mastered:</span>
-                <span className="font-mono font-semibold text-[#f5f2eb]">
+                <span className="font-mono tabular-nums font-semibold text-[#f5f2eb]">
                   {masteredCardIds.size}
                 </span>
               </div>
@@ -960,7 +960,7 @@ export function AiStudyHub({
               <div className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-[#e5a93c]" />
                 <span className="text-[#9ba1a8]">Needs Review:</span>
-                <span className="font-mono font-semibold text-[#f5f2eb]">
+                <span className="font-mono tabular-nums font-semibold text-[#f5f2eb]">
                   {reviewCardIds.size}
                 </span>
               </div>
@@ -968,7 +968,7 @@ export function AiStudyHub({
               <button
                 type="button"
                 onClick={handleRestartDeck}
-                className="text-[11px] text-[#9ba1a8] hover:text-[#f5f2eb] underline cursor-pointer"
+                className="text-[11px] text-[#9ba1a8] hover:text-[#f5f2eb] underline cursor-pointer apple-press-sm"
               >
                 Reset Progress
               </button>
@@ -977,25 +977,24 @@ export function AiStudyHub({
 
           {/* Flashcard Body */}
           {allCards.length === 0 ? (
-            <div className="p-12 text-center rounded-xl bg-[#1a1e24] border border-white/[0.08] space-y-3">
+            <div className="p-12 text-center rounded-2xl apple-glass-card space-y-3">
               <p className="text-sm text-[#f5f2eb] font-semibold">
                 No flashcards found for {activeCourse}
               </p>
               <p className="text-xs text-[#9ba1a8] max-w-md mx-auto">
-                Select "All Courses" above to practice across all 8 indexed
-                lectures.
+                Select "All Courses" above to practice across all indexed lectures.
               </p>
               <button
                 type="button"
                 onClick={() => handleCourseChange("All Courses")}
-                className="px-4 py-2 bg-[#e5a93c] text-[#14171a] font-semibold text-xs rounded-lg transition-all"
+                className="apple-press px-5 py-2.5 bg-[#e5a93c] text-[#14171a] font-semibold text-xs rounded-full shadow-sm"
               >
                 Switch to All Courses
               </button>
             </div>
           ) : isDeckFinished ? (
             /* Completed Deck Summary */
-            <div className="p-8 sm:p-12 text-center rounded-xl bg-[#1a1e24] border border-[#e5a93c]/30 space-y-5">
+            <div className="p-8 sm:p-12 text-center rounded-2xl apple-glass-card border-[#e5a93c]/30 space-y-5">
               <div className="h-12 w-12 rounded-full bg-[#e5a93c]/20 border border-[#e5a93c]/40 mx-auto flex items-center justify-center text-[#e5a93c]">
                 <svg
                   aria-hidden="true"
@@ -1014,25 +1013,25 @@ export function AiStudyHub({
               </div>
 
               <div className="space-y-1">
-                <h3 className="font-editorial text-2xl font-bold text-[#f5f2eb]">
+                <h3 className="apple-headline text-2xl font-bold text-[#f5f2eb]">
                   Deck Complete!
                 </h3>
-                <p className="text-xs text-[#9ba1a8] max-w-sm mx-auto">
+                <p className="apple-subhead text-xs text-[#9ba1a8] max-w-sm mx-auto">
                   You reviewed all {allCards.length} cards in this session. Here
                   is your recall breakdown:
                 </p>
               </div>
 
-              <div className="inline-flex items-center gap-6 p-4 rounded-xl bg-[#14171a] border border-white/[0.08]">
+              <div className="inline-flex items-center gap-6 p-4 rounded-2xl bg-black/25 border border-white/[0.08]">
                 <div className="text-center">
-                  <div className="font-mono text-xl font-bold text-emerald-400">
+                  <div className="font-mono tabular-nums text-xl font-bold text-emerald-400">
                     {masteredCardIds.size}
                   </div>
                   <div className="text-[11px] text-[#9ba1a8]">Mastered</div>
                 </div>
                 <div className="h-8 w-px bg-white/[0.08]" />
                 <div className="text-center">
-                  <div className="font-mono text-xl font-bold text-[#e5a93c]">
+                  <div className="font-mono tabular-nums text-xl font-bold text-[#e5a93c]">
                     {reviewCardIds.size}
                   </div>
                   <div className="text-[11px] text-[#9ba1a8]">Needs Review</div>
@@ -1043,14 +1042,14 @@ export function AiStudyHub({
                 <button
                   type="button"
                   onClick={handleRestartDeck}
-                  className="px-4 py-2 rounded-lg bg-[#20252b] hover:bg-[#282f37] text-xs font-semibold text-[#f5f2eb] border border-white/[0.08] transition-colors"
+                  className="apple-press-sm px-5 py-2.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-xs font-semibold text-[#f5f2eb] border border-white/[0.08]"
                 >
                   Restart Deck
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveMode("quiz")}
-                  className="px-4 py-2 rounded-lg bg-[#e5a93c] hover:bg-[#f3b74b] text-xs font-semibold text-[#14171a] transition-all"
+                  className="apple-press px-5 py-2.5 rounded-full bg-[#e5a93c] hover:bg-[#f3b74b] text-xs font-semibold text-[#14171a] shadow-sm"
                 >
                   Take Practice Quiz →
                 </button>
@@ -1059,82 +1058,126 @@ export function AiStudyHub({
           ) : (
             currentCard && (
               <div className="space-y-4">
-                {/* Tactical Card Component (Semantic button with keyboard support) */}
-                <button
-                  type="button"
-                  onClick={handleFlipCard}
-                  aria-label={
-                    isFlipped
-                      ? "Show flashcard question"
-                      : "Reveal flashcard answer"
-                  }
-                  className="w-full text-left cursor-pointer min-h-[300px] sm:min-h-[320px] rounded-xl bg-[#1a1e24] border border-white/[0.08] hover:border-[#e5a93c]/40 focus:border-[#e5a93c] focus:outline-none p-6 sm:p-8 flex flex-col justify-between transition-all shadow-md select-none"
-                >
-                  <div>
-                    {/* Card Top Metadata */}
-                    <div className="flex items-center justify-between gap-2 mb-6">
-                      <span className="text-[10px] uppercase tracking-[0.16em] font-semibold text-[#e5a93c] bg-[#e5a93c]/10 px-2 py-0.5 rounded">
-                        {currentCard.course}
-                      </span>
-                      <span className="text-xs text-[#9ba1a8] flex items-center gap-1.5">
-                        <svg
-                          aria-hidden="true"
-                          className="w-3.5 h-3.5 text-[#9ba1a8]"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                          />
-                        </svg>
-                        <span>
-                          {isFlipped
-                            ? "Click to see Question"
-                            : "Click to reveal Answer"}
+                {/* 3D Apple Perspective Card Container */}
+                <div className="apple-flip-scene w-full min-h-[320px] sm:min-h-[340px]">
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={handleFlipCard}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handleFlipCard();
+                      }
+                    }}
+                    aria-label={
+                      isFlipped
+                        ? "Show flashcard question"
+                        : "Show flashcard answer"
+                    }
+                    className={`apple-flip-card cursor-pointer select-none ${
+                      isFlipped ? "is-flipped" : ""
+                    }`}
+                  >
+                    {/* Front Face: Question */}
+                    <div className="apple-flip-face apple-flip-front rounded-2xl p-6 sm:p-8 flex flex-col justify-between overflow-hidden">
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-6">
+                          <span className="apple-tracked-label text-[10px] uppercase font-semibold text-[#e5a93c] bg-[#e5a93c]/15 border border-[#e5a93c]/20 px-2.5 py-0.5 rounded-full">
+                            {currentCard.course}
+                          </span>
+                          <span className="text-xs text-[#9ba1a8] flex items-center gap-1.5">
+                            <svg
+                              aria-hidden="true"
+                              className="w-3.5 h-3.5 text-[#9ba1a8]"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={2}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                              />
+                            </svg>
+                            <span>Tap card to flip</span>
+                          </span>
+                        </div>
+
+                        <div className="space-y-3 overflow-y-auto max-h-[160px] sm:max-h-[190px] pr-1">
+                          <span className="apple-tracked-label text-xs font-medium text-[#c59e5e] uppercase block">
+                            Question:
+                          </span>
+                          <p className="apple-headline text-xl sm:text-2xl font-semibold text-[#f5f2eb] leading-relaxed">
+                            {currentCard.question}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between gap-2 text-xs text-[#9ba1a8]">
+                        <div className="truncate max-w-md">
+                          <span>Source: </span>
+                          <span className="text-[#f5f2eb] font-medium">
+                            {currentCard.sourceTitle}
+                          </span>
+                        </div>
+                        <span className="text-[#e5a93c] text-xs font-semibold">
+                          Show Answer →
                         </span>
-                      </span>
+                      </div>
                     </div>
 
-                    {/* Card Content Face */}
-                    {!isFlipped ? (
-                      <div className="space-y-3">
-                        <span className="text-xs font-medium text-[#c59e5e] uppercase tracking-wider block">
-                          Question:
-                        </span>
-                        <p className="font-editorial text-xl sm:text-2xl font-semibold text-[#f5f2eb] leading-relaxed tracking-tight">
-                          {currentCard.question}
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        <span className="text-xs font-medium text-emerald-400 uppercase tracking-wider block">
-                          Answer:
-                        </span>
-                        <p className="text-sm sm:text-base text-[#f5f2eb] leading-relaxed">
-                          {currentCard.answer}
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                    {/* Back Face: Answer */}
+                    <div className="apple-flip-face apple-flip-back rounded-2xl p-6 sm:p-8 flex flex-col justify-between overflow-hidden">
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-6">
+                          <span className="apple-tracked-label text-[10px] uppercase font-semibold text-emerald-400 bg-emerald-500/15 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
+                            {currentCard.course}
+                          </span>
+                          <span className="text-xs text-[#9ba1a8] flex items-center gap-1.5">
+                            <svg
+                              aria-hidden="true"
+                              className="w-3.5 h-3.5 text-emerald-400"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={2}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
+                            <span>Tap card to see question</span>
+                          </span>
+                        </div>
 
-                  {/* Card Bottom Source Info */}
-                  <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between gap-2 text-xs text-[#9ba1a8]">
-                    <div className="truncate max-w-md">
-                      <span>Source: </span>
-                      <span className="text-[#f5f2eb] font-medium">
-                        {currentCard.sourceTitle}
-                      </span>
+                        <div className="space-y-3 overflow-y-auto max-h-[160px] sm:max-h-[190px] pr-1">
+                          <span className="apple-tracked-label text-xs font-medium text-emerald-400 uppercase block">
+                            Answer:
+                          </span>
+                          <p className="text-sm sm:text-base text-[#f5f2eb] leading-relaxed">
+                            {currentCard.answer}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between gap-2 text-xs text-[#9ba1a8]">
+                        <div className="truncate max-w-md">
+                          <span>Source: </span>
+                          <span className="text-[#f5f2eb] font-medium">
+                            {currentCard.sourceTitle}
+                          </span>
+                        </div>
+                        <span className="text-emerald-400 text-xs font-semibold">
+                          ← Show Question
+                        </span>
+                      </div>
                     </div>
-
-                    <span className="text-[#e5a93c] text-xs font-medium">
-                      {isFlipped ? "Answer revealed" : "Click to flip"}
-                    </span>
                   </div>
-                </button>
+                </div>
 
                 {/* Card Controls & Rating Bar */}
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-1">
@@ -1142,7 +1185,7 @@ export function AiStudyHub({
                     <button
                       type="button"
                       onClick={handlePrevCard}
-                      className="px-3.5 py-2 rounded-lg bg-[#20252b] hover:bg-[#282f37] text-xs font-medium text-[#f5f2eb] border border-white/[0.06] transition-colors"
+                      className="apple-press-sm px-4 py-2 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-xs font-medium text-[#f5f2eb] border border-white/[0.08]"
                       title="Previous Card (Left Arrow)"
                     >
                       ← Previous
@@ -1151,16 +1194,16 @@ export function AiStudyHub({
                     <button
                       type="button"
                       onClick={handleFlipCard}
-                      className="px-4 py-2 rounded-lg bg-[#252c34] hover:bg-[#2e3640] text-xs font-medium text-[#e5a93c] border border-[#e5a93c]/20 transition-colors"
+                      className="apple-press-sm px-4 py-2 rounded-full bg-[#e5a93c]/15 hover:bg-[#e5a93c]/25 text-xs font-semibold text-[#e5a93c] border border-[#e5a93c]/30 shadow-sm"
                       title="Flip Card (Spacebar)"
                     >
-                      {isFlipped ? "Show Question" : "Reveal Answer"}
+                      {isFlipped ? "Show Question" : "Show Answer"}
                     </button>
 
                     <button
                       type="button"
                       onClick={handleNextCard}
-                      className="px-3.5 py-2 rounded-lg bg-[#20252b] hover:bg-[#282f37] text-xs font-medium text-[#f5f2eb] border border-white/[0.06] transition-colors"
+                      className="apple-press-sm px-4 py-2 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-xs font-medium text-[#f5f2eb] border border-white/[0.08]"
                       title="Next Card (Right Arrow)"
                     >
                       Next →
@@ -1169,7 +1212,7 @@ export function AiStudyHub({
                     <button
                       type="button"
                       onClick={() => onOpenRecording(currentCard.recording)}
-                      className="hidden md:inline-flex px-3 py-2 rounded-lg text-xs font-medium text-[#c59e5e] hover:text-[#e5a93c] hover:bg-[#20252b] transition-colors"
+                      className="apple-press-sm hidden md:inline-flex px-3.5 py-2 rounded-full text-xs font-medium text-[#c59e5e] hover:text-[#e5a93c] hover:bg-white/[0.05]"
                     >
                       Open Lecture →
                     </button>
@@ -1183,14 +1226,14 @@ export function AiStudyHub({
                     <button
                       type="button"
                       onClick={handleMarkReview}
-                      className="flex-1 sm:flex-none px-3.5 py-2 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-xs font-semibold border border-amber-500/20 transition-colors"
+                      className="apple-press-sm flex-1 sm:flex-none px-4 py-2 rounded-full bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 text-xs font-semibold border border-amber-500/30"
                     >
                       Needs Review
                     </button>
                     <button
                       type="button"
                       onClick={handleMarkMastered}
-                      className="flex-1 sm:flex-none px-3.5 py-2 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 text-xs font-semibold border border-emerald-500/20 transition-colors"
+                      className="apple-press-sm flex-1 sm:flex-none px-4 py-2 rounded-full bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 text-xs font-semibold border border-emerald-500/30"
                     >
                       Mastered
                     </button>
@@ -1200,15 +1243,15 @@ export function AiStudyHub({
                 {/* Keyboard Shortcut Hint */}
                 <div className="text-center pt-2 text-[11px] text-[#9ba1a8]">
                   <span>Keyboard shortcuts: </span>
-                  <kbd className="px-1.5 py-0.5 rounded bg-[#1f242b] border border-white/[0.08] text-[#f5f2eb] text-[10px] font-mono">
+                  <kbd className="px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/[0.08] text-[#f5f2eb] text-[10px] font-mono">
                     Space
                   </kbd>{" "}
                   to flip ·{" "}
-                  <kbd className="px-1.5 py-0.5 rounded bg-[#1f242b] border border-white/[0.08] text-[#f5f2eb] text-[10px] font-mono">
+                  <kbd className="px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/[0.08] text-[#f5f2eb] text-[10px] font-mono">
                     ←
                   </kbd>{" "}
                   previous ·{" "}
-                  <kbd className="px-1.5 py-0.5 rounded bg-[#1f242b] border border-white/[0.08] text-[#f5f2eb] text-[10px] font-mono">
+                  <kbd className="px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/[0.08] text-[#f5f2eb] text-[10px] font-mono">
                     →
                   </kbd>{" "}
                   next
@@ -1225,12 +1268,12 @@ export function AiStudyHub({
       {activeMode === "tutor" && (
         <div className="space-y-4">
           {/* Ask Input Container */}
-          <div className="rounded-xl bg-[#1a1e24] border border-white/[0.08] p-5 sm:p-6 space-y-4">
+          <div className="apple-glass-card rounded-2xl p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between gap-2">
-              <h3 className="text-base font-semibold text-[#f5f2eb]">
+              <h3 className="apple-headline text-base font-semibold text-[#f5f2eb]">
                 Ask Your Grounded Lecture Tutor
               </h3>
-              <span className="text-xs text-[#9ba1a8]">
+              <span className="text-xs text-[#9ba1a8] font-mono tabular-nums">
                 Indexing {filteredRecordings.length} audio lectures
               </span>
             </div>
@@ -1248,12 +1291,12 @@ export function AiStudyHub({
                   value={tutorQuery}
                   onChange={(e) => setTutorQuery(e.target.value)}
                   placeholder={`Ask anything across ${activeCourse} (e.g. assignments, theories, professor examples)...`}
-                  className="w-full px-4 py-3 bg-[#14171a] border border-white/[0.08] focus:border-[#e5a93c]/50 rounded-lg text-xs sm:text-sm text-[#f5f2eb] placeholder-[#8b919a] outline-none pr-24 transition-colors"
+                  className="w-full px-5 py-3.5 bg-black/25 border border-white/[0.08] focus:border-[#e5a93c]/50 focus:bg-black/40 rounded-full text-xs sm:text-sm text-[#f5f2eb] placeholder-[#8b919a] outline-none pr-28 spring-crit"
                 />
                 <button
                   type="submit"
                   disabled={!tutorQuery.trim() || isSearchingTutor}
-                  className="absolute right-2 top-2 bottom-2 px-3.5 bg-[#e5a93c] hover:bg-[#f3b74b] disabled:opacity-40 text-[#14171a] font-semibold text-xs rounded-md transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="apple-press absolute right-2 top-2 bottom-2 px-4 bg-[#e5a93c] hover:bg-[#f3b74b] disabled:opacity-40 text-[#14171a] font-semibold text-xs rounded-full shadow-sm flex items-center gap-1.5 cursor-pointer"
                 >
                   {isSearchingTutor ? (
                     <span className="inline-block h-3 w-3 rounded-full border-2 border-[#14171a] border-t-transparent animate-spin" />
@@ -1265,7 +1308,7 @@ export function AiStudyHub({
 
               {/* High-Yield Prompts */}
               <div className="space-y-1.5 pt-1">
-                <span className="text-[11px] font-medium text-[#9ba1a8]">
+                <span className="apple-tracked-label text-[11px] font-medium text-[#9ba1a8]">
                   Suggested inquiry prompts for {activeCourse}:
                 </span>
                 <div className="flex flex-wrap gap-2">
@@ -1277,7 +1320,7 @@ export function AiStudyHub({
                         setTutorQuery(prompt);
                         handleAskTutor(prompt);
                       }}
-                      className="px-2.5 py-1 rounded bg-[#20252b] hover:bg-[#282f37] hover:text-[#f5f2eb] text-[11px] text-[#cfd4dc] border border-white/[0.04] transition-colors text-left"
+                      className="apple-press-sm px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-[11px] text-[#cfd4dc] border border-white/[0.06] text-left spring-crit"
                     >
                       {prompt}
                     </button>
@@ -1290,11 +1333,11 @@ export function AiStudyHub({
           {/* Conversation Stream */}
           <div className="space-y-4">
             {chatHistory.length === 0 && !isSearchingTutor && (
-              <div className="p-8 text-center rounded-xl bg-[#1a1e24] border border-white/[0.08] space-y-2">
+              <div className="p-8 text-center rounded-2xl apple-glass-card space-y-2">
                 <p className="text-xs sm:text-sm text-[#f5f2eb] font-medium">
                   No questions asked in this study session yet.
                 </p>
-                <p className="text-xs text-[#9ba1a8] max-w-md mx-auto">
+                <p className="apple-subhead text-xs text-[#9ba1a8] max-w-md mx-auto">
                   Type a question above or click one of the suggested prompts to
                   synthesize explanations with verbatim lecture citations.
                 </p>
@@ -1302,7 +1345,7 @@ export function AiStudyHub({
             )}
 
             {isSearchingTutor && (
-              <div className="p-6 rounded-xl bg-[#1a1e24] border border-[#e5a93c]/30 flex items-center gap-3">
+              <div className="p-6 rounded-2xl apple-glass-card border-[#e5a93c]/30 flex items-center gap-3">
                 <span className="h-3 w-3 rounded-full bg-[#e5a93c] animate-ping" />
                 <span className="text-xs text-[#e5a93c] font-medium">
                   Scanning lecture transcripts & synthesizing grounded answer...
@@ -1313,17 +1356,17 @@ export function AiStudyHub({
             {chatHistory.map((msg) => (
               <div
                 key={msg.id}
-                className="rounded-xl bg-[#1a1e24] border border-white/[0.08] p-5 sm:p-6 space-y-4"
+                className="apple-glass-card rounded-2xl p-5 sm:p-6 space-y-4"
               >
                 {/* User Prompt */}
                 <div className="flex items-start justify-between gap-3 pb-3 border-b border-white/[0.06]">
                   <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-[#e5a93c]" />
+                    <span className="h-2 w-2 rounded-full bg-[#e5a93c] shadow-[0_0_8px_rgba(229,169,60,0.6)]" />
                     <span className="text-xs font-semibold text-[#f5f2eb]">
                       {msg.question}
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono text-[#9ba1a8]">
+                  <span className="text-[10px] font-mono tabular-nums text-[#9ba1a8]">
                     {msg.timestamp}
                   </span>
                 </div>
@@ -1336,7 +1379,7 @@ export function AiStudyHub({
                 {/* Citations & Source Links */}
                 {msg.citations.length > 0 && (
                   <div className="pt-3 border-t border-white/[0.06] space-y-2">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-[#c59e5e]">
+                    <span className="apple-tracked-label text-[11px] font-semibold uppercase text-[#c59e5e]">
                       Verified Lecture Citations:
                     </span>
                     <div className="flex flex-wrap gap-2">
@@ -1345,9 +1388,9 @@ export function AiStudyHub({
                           key={`${cite.recording.id}-${cite.timestamp}`}
                           type="button"
                           onClick={() => onOpenRecording(cite.recording)}
-                          className="px-2.5 py-1 rounded bg-[#20252b] hover:bg-[#282f37] border border-white/[0.06] text-[11px] text-[#f5f2eb] flex items-center gap-1.5 transition-colors cursor-pointer"
+                          className="apple-press-sm px-3 py-1 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-[11px] text-[#f5f2eb] flex items-center gap-1.5 cursor-pointer spring-crit"
                         >
-                          <span className="text-[#e5a93c] font-mono">
+                          <span className="text-[#e5a93c] font-mono tabular-nums">
                             {cite.timestamp}
                           </span>
                           <span className="truncate max-w-[200px]">
@@ -1365,7 +1408,7 @@ export function AiStudyHub({
                   <button
                     type="button"
                     onClick={() => handleCopyAnswer(msg)}
-                    className="text-[11px] text-[#9ba1a8] hover:text-[#f5f2eb] underline"
+                    className="text-[11px] text-[#9ba1a8] hover:text-[#f5f2eb] underline apple-press-sm"
                   >
                     {copiedMessageId === msg.id ? "Copied!" : "Copy Answer"}
                   </button>
@@ -1378,7 +1421,7 @@ export function AiStudyHub({
                 <button
                   type="button"
                   onClick={() => setChatHistory([])}
-                  className="text-xs text-[#9ba1a8] hover:text-[#f5f2eb] underline cursor-pointer"
+                  className="text-xs text-[#9ba1a8] hover:text-[#f5f2eb] underline cursor-pointer apple-press-sm"
                 >
                   Clear Chat History
                 </button>
@@ -1394,12 +1437,12 @@ export function AiStudyHub({
       {activeMode === "quiz" && (
         <div className="space-y-4">
           {/* Quiz Top Progress */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#1a1e24] px-4 py-3 rounded-xl border border-white/[0.08]">
+          <div className="apple-glass-card flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-3 rounded-2xl">
             <div className="flex items-center gap-3">
               <span className="text-xs font-semibold text-[#f5f2eb]">
                 {activeCourse} Practice Quiz
               </span>
-              <span className="text-xs font-mono text-[#9ba1a8]">
+              <span className="text-xs font-mono tabular-nums text-[#9ba1a8]">
                 Question {quizIndex + 1} of {quizQuestions.length}
               </span>
             </div>
@@ -1407,7 +1450,7 @@ export function AiStudyHub({
             <div className="flex items-center gap-4 text-xs">
               <div className="flex items-center gap-1.5">
                 <span className="text-[#9ba1a8]">Score:</span>
-                <span className="font-mono font-semibold text-[#e5a93c]">
+                <span className="font-mono tabular-nums font-semibold text-[#e5a93c]">
                   {quizScore} / {quizQuestions.length}
                 </span>
               </div>
@@ -1415,7 +1458,7 @@ export function AiStudyHub({
               <button
                 type="button"
                 onClick={handleRestartQuiz}
-                className="text-[11px] text-[#9ba1a8] hover:text-[#f5f2eb] underline cursor-pointer"
+                className="text-[11px] text-[#9ba1a8] hover:text-[#f5f2eb] underline cursor-pointer apple-press-sm"
               >
                 Reset Quiz
               </button>
@@ -1424,7 +1467,7 @@ export function AiStudyHub({
 
           {isQuizComplete ? (
             /* Quiz Results Finished Screen */
-            <div className="p-8 sm:p-12 text-center rounded-xl bg-[#1a1e24] border border-[#e5a93c]/30 space-y-5">
+            <div className="p-8 sm:p-12 text-center rounded-2xl apple-glass-card border-[#e5a93c]/30 space-y-5">
               <div className="h-12 w-12 rounded-full bg-[#e5a93c]/20 border border-[#e5a93c]/40 mx-auto flex items-center justify-center text-[#e5a93c]">
                 <svg
                   aria-hidden="true"
@@ -1443,10 +1486,10 @@ export function AiStudyHub({
               </div>
 
               <div className="space-y-1">
-                <h3 className="font-editorial text-2xl font-bold text-[#f5f2eb]">
+                <h3 className="apple-headline text-2xl font-bold text-[#f5f2eb]">
                   Quiz Complete!
                 </h3>
-                <p className="text-xs text-[#9ba1a8]">
+                <p className="apple-subhead text-xs text-[#9ba1a8]">
                   You answered {quizScore} out of {quizQuestions.length}{" "}
                   questions correctly (
                   {Math.round((quizScore / quizQuestions.length) * 100)}%).
@@ -1457,14 +1500,14 @@ export function AiStudyHub({
                 <button
                   type="button"
                   onClick={handleRestartQuiz}
-                  className="px-4 py-2 rounded-lg bg-[#20252b] hover:bg-[#282f37] text-xs font-semibold text-[#f5f2eb] border border-white/[0.08] transition-colors"
+                  className="apple-press-sm px-5 py-2.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-xs font-semibold text-[#f5f2eb] border border-white/[0.08]"
                 >
                   Retake Quiz
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveMode("flashcards")}
-                  className="px-4 py-2 rounded-lg bg-[#e5a93c] hover:bg-[#f3b74b] text-xs font-semibold text-[#14171a] transition-all"
+                  className="apple-press px-5 py-2.5 rounded-full bg-[#e5a93c] hover:bg-[#f3b74b] text-xs font-semibold text-[#14171a] shadow-sm"
                 >
                   Review Weak Areas in Flashcards →
                 </button>
@@ -1472,18 +1515,18 @@ export function AiStudyHub({
             </div>
           ) : (
             currentQuizItem && (
-              <div className="rounded-xl bg-[#1a1e24] border border-white/[0.08] p-6 sm:p-8 space-y-6">
+              <div className="apple-glass-card rounded-2xl p-6 sm:p-8 space-y-6">
                 {/* Question Prompt */}
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] uppercase tracking-[0.16em] font-semibold text-[#e5a93c] bg-[#e5a93c]/10 px-2 py-0.5 rounded">
+                    <span className="apple-tracked-label text-[10px] uppercase font-semibold text-[#e5a93c] bg-[#e5a93c]/15 border border-[#e5a93c]/20 px-2.5 py-0.5 rounded-full">
                       {currentQuizItem.course}
                     </span>
                     <span className="text-xs text-[#9ba1a8]">
                       {currentQuizItem.sourceTitle}
                     </span>
                   </div>
-                  <h3 className="font-sans text-lg sm:text-xl font-semibold text-[#f5f2eb] leading-snug">
+                  <h3 className="apple-headline text-lg sm:text-xl font-semibold text-[#f5f2eb] leading-snug">
                     {currentQuizItem.question}
                   </h3>
                 </div>
@@ -1495,12 +1538,12 @@ export function AiStudyHub({
                     const isCorrect = idx === currentQuizItem.correctIndex;
 
                     let btnClass =
-                      "bg-[#14171a] border-white/[0.08] hover:border-[#e5a93c]/40 text-[#cfd4dc]";
+                      "bg-white/[0.02] border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.04] text-[#cfd4dc]";
 
                     if (isAnswerSubmitted) {
                       if (isCorrect) {
                         btnClass =
-                          "bg-emerald-500/15 border-emerald-500/60 text-emerald-300";
+                          "bg-emerald-500/15 border-emerald-500/60 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.15)]";
                       } else if (isSelected && !isCorrect) {
                         btnClass =
                           "bg-rose-500/15 border-rose-500/60 text-rose-300";
@@ -1513,7 +1556,7 @@ export function AiStudyHub({
                         type="button"
                         onClick={() => handleSelectQuizOption(idx)}
                         disabled={isAnswerSubmitted}
-                        className={`w-full p-4 rounded-lg border text-left text-xs sm:text-sm font-medium transition-all flex items-start gap-3 ${btnClass}`}
+                        className={`apple-press-row w-full p-4 rounded-xl border text-left text-xs sm:text-sm font-medium transition-all flex items-start gap-3 spring-crit ${btnClass}`}
                       >
                         <span className="h-5 w-5 rounded-full border border-white/[0.2] flex items-center justify-center text-[10px] font-mono flex-shrink-0 mt-0.5">
                           {String.fromCharCode(65 + idx)}
@@ -1526,11 +1569,11 @@ export function AiStudyHub({
 
                 {/* Feedback Box & Next Button */}
                 {isAnswerSubmitted && (
-                  <div className="p-4 rounded-lg bg-[#14171a] border border-white/[0.08] space-y-3 animate-fade-in">
+                  <div className="p-4 rounded-xl apple-glass-card space-y-3">
                     <div className="flex items-center gap-2">
                       {selectedOption === currentQuizItem.correctIndex ? (
                         <>
-                          <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                          <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
                           <span className="text-xs font-semibold text-emerald-400">
                             Correct Answer
                           </span>
@@ -1553,7 +1596,7 @@ export function AiStudyHub({
                       <button
                         type="button"
                         onClick={handleNextQuizQuestion}
-                        className="px-4 py-2 rounded-lg bg-[#e5a93c] hover:bg-[#f3b74b] text-[#14171a] font-semibold text-xs transition-all cursor-pointer"
+                        className="apple-press px-5 py-2.5 rounded-full bg-[#e5a93c] hover:bg-[#f3b74b] text-[#14171a] font-semibold text-xs shadow-sm cursor-pointer"
                       >
                         {quizIndex + 1 >= quizQuestions.length
                           ? "View Final Results →"
@@ -1574,14 +1617,14 @@ export function AiStudyHub({
       {activeMode === "guide" && (
         <div className="space-y-4">
           {/* Guide Sub-Navigation Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#1a1e24] px-4 py-3 rounded-xl border border-white/[0.08]">
-            <div className="flex items-center gap-1">
+          <div className="apple-glass-card flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-2 px-3 rounded-2xl">
+            <div className="apple-segmented-group p-1 flex items-center gap-1">
               <button
                 type="button"
                 onClick={() => setGuideSubTab("concepts")}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                className={`apple-segmented-item px-3.5 py-1.5 rounded-lg text-xs font-medium spring-snappy cursor-pointer ${
                   guideSubTab === "concepts"
-                    ? "bg-[#252c34] text-[#e5a93c] font-semibold"
+                    ? "active text-[#e5a93c] font-semibold"
                     : "text-[#9ba1a8] hover:text-[#f5f2eb]"
                 }`}
               >
@@ -1591,9 +1634,9 @@ export function AiStudyHub({
               <button
                 type="button"
                 onClick={() => setGuideSubTab("deadlines")}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                className={`apple-segmented-item px-3.5 py-1.5 rounded-lg text-xs font-medium spring-snappy cursor-pointer ${
                   guideSubTab === "deadlines"
-                    ? "bg-[#252c34] text-[#e5a93c] font-semibold"
+                    ? "active text-[#e5a93c] font-semibold"
                     : "text-[#9ba1a8] hover:text-[#f5f2eb]"
                 }`}
               >
@@ -1604,7 +1647,7 @@ export function AiStudyHub({
             <button
               type="button"
               onClick={handleCopyStudyGuide}
-              className="text-xs font-semibold text-[#e5a93c] hover:underline flex items-center gap-1 self-start sm:self-auto cursor-pointer"
+              className="text-xs font-semibold text-[#e5a93c] hover:underline flex items-center gap-1 self-start sm:self-auto cursor-pointer apple-press-sm px-2.5 py-1 rounded-full"
             >
               <span>
                 {isGuideCopied ? "✓ Copied to Clipboard" : "Copy Study Guide"}
@@ -1618,11 +1661,11 @@ export function AiStudyHub({
               {allTakeaways.map((item) => (
                 <div
                   key={item.id}
-                  className="rounded-xl bg-[#1a1e24] border border-white/[0.08] p-5 space-y-2 flex flex-col justify-between"
+                  className="apple-glass-card rounded-2xl p-5 space-y-2 flex flex-col justify-between apple-press-row"
                 >
                   <div className="space-y-2">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-[10px] uppercase tracking-[0.16em] font-semibold text-[#e5a93c] bg-[#e5a93c]/10 px-2 py-0.5 rounded">
+                      <span className="apple-tracked-label text-[10px] uppercase font-semibold text-[#e5a93c] bg-[#e5a93c]/15 border border-[#e5a93c]/20 px-2.5 py-0.5 rounded-full">
                         {item.course}
                       </span>
                     </div>
@@ -1641,8 +1684,8 @@ export function AiStudyHub({
 
           {/* SubTab 2: Action Items & Deadlines */}
           {guideSubTab === "deadlines" && (
-            <div className="rounded-xl bg-[#1a1e24] border border-white/[0.08] p-5 sm:p-6 space-y-3">
-              <h3 className="text-sm font-semibold text-[#f5f2eb] pb-2 border-b border-white/[0.06]">
+            <div className="apple-glass-card rounded-2xl p-5 sm:p-6 space-y-3">
+              <h3 className="apple-headline text-sm font-semibold text-[#f5f2eb] pb-2 border-b border-white/[0.06]">
                 Upcoming Academic Deadlines & Action Items
               </h3>
 
@@ -1658,10 +1701,10 @@ export function AiStudyHub({
                       <label
                         key={act.id}
                         htmlFor={act.id}
-                        className={`p-3.5 rounded-lg border transition-all cursor-pointer flex items-start gap-3 ${
+                        className={`apple-press-row p-3.5 rounded-xl border transition-all cursor-pointer flex items-start gap-3 ${
                           isDone
-                            ? "bg-[#14171a] border-white/[0.04] opacity-50"
-                            : "bg-[#181c22] border-white/[0.08] hover:border-[#e5a93c]/40"
+                            ? "bg-black/25 border-white/[0.04] opacity-50"
+                            : "apple-glass-card border-white/[0.06] hover:border-[#e5a93c]/40"
                         }`}
                       >
                         <input
@@ -1672,7 +1715,7 @@ export function AiStudyHub({
                           className="mt-0.5 rounded bg-transparent border-white/[0.3] text-[#e5a93c] focus:ring-0 cursor-pointer"
                         />
                         <div className="flex-1 min-w-0">
-                          <span className="text-[10px] uppercase tracking-wider font-semibold text-[#c59e5e] block mb-0.5">
+                          <span className="apple-tracked-label text-[10px] uppercase font-semibold text-[#c59e5e] block mb-0.5">
                             {act.course}
                           </span>
                           <span

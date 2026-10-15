@@ -86,13 +86,13 @@ export function DashboardHeader({
   };
 
   return (
-    <header className="sticky top-0 z-30 h-16 bg-[#14171a]/90 backdrop-blur-md border-b border-white/[0.08] px-4 sm:px-6 flex items-center justify-between gap-4 relative">
+    <header className="sticky top-0 z-30 h-16 apple-glass border-b border-white/[0.08] px-4 sm:px-6 flex items-center justify-between gap-4 relative">
       {/* Left: Mobile Toggle + Breadcrumb */}
       <div className="flex items-center gap-3 min-w-0 max-w-[calc(50%-13rem)] xl:max-w-[calc(50%-15rem)]">
         <button
           type="button"
           onClick={onOpenMobileSidebar}
-          className="lg:hidden p-2 text-[#9ba1a8] hover:text-[#f5f2eb] rounded-lg hover:bg-[#1f242b]"
+          className="lg:hidden p-2 text-[#9ba1a8] hover:text-[#f5f2eb] rounded-lg hover:bg-[#1f242b] apple-press-sm cursor-pointer"
           aria-label="Open sidebar"
         >
           <svg
@@ -115,7 +115,7 @@ export function DashboardHeader({
           <button
             type="button"
             onClick={onToggleSidebarCollapse}
-            className="hidden lg:flex p-2 text-[#9ba1a8] hover:text-[#f5f2eb] rounded-lg hover:bg-[#1f242b] transition-colors shrink-0"
+            className="hidden lg:flex p-2 text-[#9ba1a8] hover:text-[#f5f2eb] rounded-lg hover:bg-white/[0.06] apple-press-sm cursor-pointer transition-colors shrink-0"
             title={
               isSidebarCollapsed
                 ? "Expand sidebar (⌘B)"
@@ -235,7 +235,7 @@ export function DashboardHeader({
             onKeyDown={handleInputKeyDown}
             onFocus={onSearchFocus}
             placeholder="Search transcripts, topics, or notes..."
-            className="w-full pl-9 pr-16 py-2 bg-[#1b2026] hover:bg-[#1f242b] focus:bg-[#20262e] border border-white/[0.08] focus:border-[#e5a93c]/50 focus:ring-1 focus:ring-[#e5a93c]/30 rounded-lg text-xs text-[#f5f2eb] placeholder-[#8b919a] transition-colors outline-none"
+            className="w-full pl-9 pr-16 py-2 bg-white/[0.05] hover:bg-white/[0.08] focus:bg-[#1a1e24] border border-white/[0.08] focus:border-[#e5a93c]/50 focus:ring-2 focus:ring-[#e5a93c]/20 rounded-full text-xs text-[#f5f2eb] placeholder-[#8b919a] transition-all outline-none"
             autoComplete="off"
             spellCheck={false}
           />
@@ -246,7 +246,7 @@ export function DashboardHeader({
                 onSearchChange("");
                 searchInputRef.current?.focus();
               }}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-[#8b919a] hover:text-[#f5f2eb]"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-[#8b919a] hover:text-[#f5f2eb] apple-press-sm cursor-pointer"
               title="Clear search"
             >
               Clear
@@ -259,7 +259,7 @@ export function DashboardHeader({
                   searchInputRef.current?.focus();
                   searchInputRef.current?.select();
                 }}
-                className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] uppercase font-mono text-[#8b919a] hover:text-[#f5f2eb] bg-[#14171a] hover:bg-[#20252c] border border-white/[0.08] rounded transition-colors"
+                className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono text-[#8b919a] hover:text-[#f5f2eb] bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.1] rounded-md transition-colors apple-press-sm cursor-pointer"
                 title={`Press ${shortcutKey} to search`}
               >
                 {shortcutKey}
@@ -274,7 +274,7 @@ export function DashboardHeader({
             onClick={() => {
               setIsMobileSearchOpen(false);
             }}
-            className="md:hidden text-xs text-[#8b919a] hover:text-[#f5f2eb] px-2 py-1 font-medium transition-colors pointer-events-auto"
+            className="md:hidden text-xs text-[#8b919a] hover:text-[#f5f2eb] px-2 py-1 font-medium transition-colors pointer-events-auto apple-press-sm cursor-pointer"
           >
             Cancel
           </button>
@@ -294,7 +294,7 @@ export function DashboardHeader({
               searchInputRef.current?.select();
             });
           }}
-          className="md:hidden p-2 text-[#9ba1a8] hover:text-[#f5f2eb] rounded-lg hover:bg-[#1f242b]"
+          className="md:hidden p-2 text-[#9ba1a8] hover:text-[#f5f2eb] rounded-lg hover:bg-[#1f242b] apple-press-sm cursor-pointer"
           aria-label={`Search (${shortcutKey})`}
           title={`Search (${shortcutKey})`}
         >
@@ -318,7 +318,7 @@ export function DashboardHeader({
           type="button"
           onClick={onOpenRecord}
           id="header-record-btn"
-          className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#e5a93c] hover:bg-[#f3b74b] active:scale-[0.98] text-[#14171a] font-semibold text-xs shadow-sm hover:shadow-[0_0_15px_rgba(229,169,60,0.35)] transition-all cursor-pointer"
+          className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e5a93c] hover:bg-[#f3b74b] text-[#14171a] font-semibold text-xs shadow-sm hover:shadow-[0_0_15px_rgba(229,169,60,0.35)] transition-all apple-press cursor-pointer"
           title="Start new audio recording"
         >
           <span className="relative flex h-2 w-2">
