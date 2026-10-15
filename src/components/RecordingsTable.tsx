@@ -117,7 +117,8 @@ export function RecordingsTable({
               activeTab === "lecture" ? "active" : ""
             }`}
           >
-            Lectures ({baseRecordings.filter((r) => r.type === "lecture").length})
+            Lectures (
+            {baseRecordings.filter((r) => r.type === "lecture").length})
           </button>
           <button
             type="button"
@@ -126,7 +127,8 @@ export function RecordingsTable({
               activeTab === "voice_memo" ? "active" : ""
             }`}
           >
-            Voice Memos ({baseRecordings.filter((r) => r.type === "voice_memo").length})
+            Voice Memos (
+            {baseRecordings.filter((r) => r.type === "voice_memo").length})
           </button>
           <button
             type="button"
@@ -287,7 +289,9 @@ export function RecordingsTable({
                       <span className="text-[10px] uppercase tracking-wider font-semibold text-[#e5e0d6] bg-white/[0.06] border border-white/10 px-2 py-0.5 rounded inline-flex items-center gap-1.5">
                         <CourseIcon
                           icon={getCourseIconFromList(
-                            typeof courses?.[0] === "string" ? undefined : (courses as CourseItem[]),
+                            typeof courses?.[0] === "string"
+                              ? undefined
+                              : (courses as CourseItem[]),
                             rec.course,
                           )}
                           className="w-3 h-3 text-[#9ba1a8]"
@@ -381,7 +385,9 @@ export function RecordingsTable({
                     <span className="text-[10px] uppercase tracking-wider font-semibold text-[#e5e0d6] bg-white/[0.06] border border-white/10 px-2 py-0.5 rounded inline-flex items-center gap-1.5">
                       <CourseIcon
                         icon={getCourseIconFromList(
-                          typeof courses?.[0] === "string" ? undefined : (courses as CourseItem[]),
+                          typeof courses?.[0] === "string"
+                            ? undefined
+                            : (courses as CourseItem[]),
                           rec.course,
                         )}
                         className="w-3 h-3 text-[#9ba1a8]"
@@ -395,7 +401,9 @@ export function RecordingsTable({
                         onToggleStar(rec.id);
                       }}
                       className={`text-sm apple-press-sm cursor-pointer transition-transform ${
-                        rec.isStarred ? "text-[#e5a93c] scale-110" : "text-[#8b919a]"
+                        rec.isStarred
+                          ? "text-[#e5a93c] scale-110"
+                          : "text-[#8b919a]"
                       }`}
                     >
                       ★

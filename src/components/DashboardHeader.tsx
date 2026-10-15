@@ -164,7 +164,9 @@ export function DashboardHeader({
             aria-label="Breadcrumb"
             className="flex items-center gap-2 text-xs text-[#8b919a] min-w-0"
           >
-            <span className="font-semibold text-[#c59e5e] shrink-0">Auditor</span>
+            <span className="font-semibold text-[#c59e5e] shrink-0">
+              Auditor
+            </span>
             <span className="text-white/20 shrink-0">/</span>
             <span
               className={`font-medium truncate ${
@@ -181,7 +183,9 @@ export function DashboardHeader({
                 <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white/[0.08] text-[#f5f2eb] border border-white/10 font-medium text-xs max-w-[160px] sm:max-w-[200px] shrink-0">
                   <CourseIcon
                     icon={getCourseIconFromList(
-                      typeof courses[0] === "string" ? undefined : (courses as CourseItem[]),
+                      typeof courses[0] === "string"
+                        ? undefined
+                        : (courses as CourseItem[]),
                       selectedCourse,
                     )}
                     className="w-3.5 h-3.5 shrink-0 text-[#e5a93c]"

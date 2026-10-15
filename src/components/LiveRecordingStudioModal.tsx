@@ -363,7 +363,11 @@ export function LiveRecordingStudioModal({
                 {courseNames
                   .filter((c) => c !== "All Courses")
                   .map((c) => (
-                    <option key={c} value={c} className="bg-[#181c22] text-[#f5f2eb]">
+                    <option
+                      key={c}
+                      value={c}
+                      className="bg-[#181c22] text-[#f5f2eb]"
+                    >
                       {c}
                     </option>
                   ))}
@@ -409,7 +413,9 @@ export function LiveRecordingStudioModal({
               <span className="apple-tracked-label uppercase font-semibold text-[#c59e5e] text-[10px]">
                 Live Speech Stream
               </span>
-              <span className="font-mono tabular-nums">{liveTranscript.length} phrases caught</span>
+              <span className="font-mono tabular-nums">
+                {liveTranscript.length} phrases caught
+              </span>
             </div>
 
             <div className="h-36 overflow-y-auto p-3.5 rounded-xl bg-black/25 border border-white/[0.06] space-y-2 text-xs">

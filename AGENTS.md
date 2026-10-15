@@ -11,6 +11,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Package Manager & Tooling Rules
 
 - **Use only `bun`** for package installation, script execution, build tasks, and any tasks related to npm (e.g. `bun install`, `bun run dev`, `bun run build`, `bun add`). Do not run `npm` directly.
+- **Always use `bun run dev`** to run or preview the development server. **NEVER use `bun run start`**.
 
 ## Commands & Verification
 

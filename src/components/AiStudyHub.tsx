@@ -982,7 +982,8 @@ export function AiStudyHub({
                 No flashcards found for {activeCourse}
               </p>
               <p className="text-xs text-[#9ba1a8] max-w-md mx-auto">
-                Select "All Courses" above to practice across all indexed lectures.
+                Select "All Courses" above to practice across all indexed
+                lectures.
               </p>
               <button
                 type="button"

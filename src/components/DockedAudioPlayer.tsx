@@ -107,7 +107,7 @@ export function DockedAudioPlayer({
   const activeSegmentIndex = recording.transcript.findIndex(
     (seg, idx, arr) =>
       currentSeconds >= seg.seconds &&
-      (idx === arr.length - 1 || currentSeconds < arr[idx + 1].seconds)
+      (idx === arr.length - 1 || currentSeconds < arr[idx + 1].seconds),
   );
   const activeSegment =
     activeSegmentIndex !== -1 ? recording.transcript[activeSegmentIndex] : null;
@@ -259,7 +259,8 @@ export function DockedAudioPlayer({
               const dynamicHeight = isPlaying
                 ? Math.max(
                     15,
-                    val * (0.8 + 0.35 * Math.sin(idx * 0.5 + currentSeconds * 0.8))
+                    val *
+                      (0.8 + 0.35 * Math.sin(idx * 0.5 + currentSeconds * 0.8)),
                   )
                 : val;
 
@@ -268,7 +269,7 @@ export function DockedAudioPlayer({
                   key={idx}
                   onClick={() => {
                     const newSecs = Math.floor(
-                      (idx / waveformBars) * totalSeconds
+                      (idx / waveformBars) * totalSeconds,
                     );
                     setCurrentSeconds(newSecs);
                   }}
@@ -284,7 +285,7 @@ export function DockedAudioPlayer({
                     minHeight: "4px",
                   }}
                   title={`Jump to ${formatTime(
-                    Math.floor((idx / waveformBars) * totalSeconds)
+                    Math.floor((idx / waveformBars) * totalSeconds),
                   )}`}
                 />
               );
@@ -383,7 +384,9 @@ export function DockedAudioPlayer({
           <div className="flex items-center gap-1 text-[#8b919a] bg-[#1d222a] px-1.5 py-0.5 rounded-lg border border-white/[0.06]">
             <button
               type="button"
-              onClick={() => setCurrentSeconds((prev) => Math.max(0, prev - 10))}
+              onClick={() =>
+                setCurrentSeconds((prev) => Math.max(0, prev - 10))
+              }
               className="p-1 hover:text-[#f5f2eb] rounded transition-colors text-xs flex items-center apple-press-sm cursor-pointer"
               title="Rewind 10 seconds"
               aria-label="Rewind 10 seconds"

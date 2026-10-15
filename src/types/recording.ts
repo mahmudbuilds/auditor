@@ -26,12 +26,21 @@ export interface RecordingItem {
   date: string;
   duration: string;
   durationSeconds: number;
-  type: "lecture" | "meeting" | "voice_memo" | "study_review";
+  type: "lecture" | "meeting" | "voice_memo" | "study_review" | "other";
   status: "ready" | "processing" | "recording";
   isStarred?: boolean;
   waveform?: number[];
   summary: RecordingSummary;
   transcript: TranscriptSegment[];
+  /** "imported" when the audio came from a file rather than the recorder. */
+  source?: "recorded" | "imported";
+  /** Moments the user flagged while recording, in seconds. */
+  marks?: number[];
+  /** Free-form personal notes typed in the workspace. */
+  notes?: string;
+  /** Epoch ms bounds of the (simulated) processing run. */
+  startedAt?: number;
+  readyAt?: number;
 }
 
 export interface CourseItem {

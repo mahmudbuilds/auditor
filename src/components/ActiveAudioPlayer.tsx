@@ -323,14 +323,17 @@ export function ActiveAudioPlayer({
                     isPlaying
                       ? Math.max(
                           20,
-                          val * (0.8 + 0.35 * Math.sin(idx * 0.5 + currentSeconds * 0.8))
+                          val *
+                            (0.8 +
+                              0.35 *
+                                Math.sin(idx * 0.5 + currentSeconds * 0.8)),
                         )
                       : val
                   }%`,
                   minHeight: "4px",
                 }}
                 title={`Jump to ${formatTime(
-                  Math.floor((idx / 32) * totalSeconds)
+                  Math.floor((idx / 32) * totalSeconds),
                 )}`}
               />
             );

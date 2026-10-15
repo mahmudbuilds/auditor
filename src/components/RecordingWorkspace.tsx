@@ -546,8 +546,8 @@ export function RecordingWorkspace({
         <div className="w-full h-8 flex items-center justify-between gap-[2px] px-1 bg-[#14171a]/60 rounded-lg border border-white/[0.04]">
           {Array.from({ length: 48 }).map((_, idx) => {
             const waveformList = recording.waveform || [
-              35, 50, 70, 85, 60, 45, 65, 90, 80, 55, 45, 75, 95, 80, 60, 70, 85,
-              90, 65, 45, 40, 60, 75, 50,
+              35, 50, 70, 85, 60, 45, 65, 90, 80, 55, 45, 75, 95, 80, 60, 70,
+              85, 90, 65, 45, 40, 60, 75, 50,
             ];
             const val =
               waveformList[idx % waveformList.length] || 35 + ((idx * 13) % 55);
@@ -560,7 +560,8 @@ export function RecordingWorkspace({
             const dynamicHeight = isPlaying
               ? Math.max(
                   15,
-                  val * (0.8 + 0.35 * Math.sin(idx * 0.4 + currentSeconds * 0.7))
+                  val *
+                    (0.8 + 0.35 * Math.sin(idx * 0.4 + currentSeconds * 0.7)),
                 )
               : val;
 
@@ -583,7 +584,7 @@ export function RecordingWorkspace({
                   minHeight: "4px",
                 }}
                 title={`Jump to ${formatTime(
-                  Math.floor((idx / 48) * totalSeconds)
+                  Math.floor((idx / 48) * totalSeconds),
                 )}`}
               />
             );

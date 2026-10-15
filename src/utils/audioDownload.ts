@@ -6,7 +6,7 @@ import type { RecordingItem } from "@/types/recording";
  */
 export function generateAudioWavBlob(
   recording: RecordingItem,
-  secondsToGenerate = 4
+  secondsToGenerate = 4,
 ): Blob {
   const sampleRate = 24000;
   const numChannels = 1;
@@ -64,7 +64,7 @@ export function downloadRecordingAudio(recording: RecordingItem): boolean {
     const url = URL.createObjectURL(blob);
     const safeTitle = `${recording.course} - ${recording.title}`.replace(
       /[\\/:*?"<>|]/g,
-      "_"
+      "_",
     );
     const link = document.createElement("a");
     link.href = url;

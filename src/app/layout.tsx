@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AppProvider } from "@/components/providers/AppProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Auditor — Lecture Intelligence & Audio Notes Dashboard",
+  title: "AUDIOTAP — Record • Transcribe • Learn",
   description:
-    "Your personal audio note-taking dashboard. Record lectures, search live transcripts, get clear AI summaries, and ask questions directly against your audio recordings.",
+    "Precision analog-inspired audio recording, live transcription, and neural AI study workstation.",
 };
 
 export default function RootLayout({
@@ -35,13 +36,9 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Cinzel:wght@400;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
-          rel="stylesheet"
-        />
       </head>
-      <body className="min-h-full flex flex-col bg-[#14171a] text-[#f5f2eb] antialiased">
-        {children}
+      <body className="min-h-full flex flex-col bg-[#ded7ca] text-[#22201d] antialiased">
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );
